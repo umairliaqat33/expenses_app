@@ -1,15 +1,19 @@
-import 'package:expenses_app/screens/WelcomeScreen.dart';
+import 'package:expenses_app/screens/menu_screen.dart';
 import 'package:expenses_app/widgets/new_transactions.dart';
 import 'package:flutter/material.dart';
 import './widgets/transaction_list.dart';
 import 'models/Transact.dart';
 import 'widgets/chart.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+Future <void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  final Future<FirebaseApp> _fbApp =Firebase.initializeApp();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,7 +25,21 @@ class MyApp extends StatelessWidget {
         // accentColor: Colors.yellowAccent,
       ),
       title: "Personal Expenses",
-      home: MyHomePage(),
+      home: FutureBuilder(
+        future: _fbApp,
+        builder: (context, snapshot){
+          if(snapshot.hasError){
+            print("You have an error ${snapshot.error.toString()}");
+            return Text("Something went wrong");
+          }else if(snapshot.hasData){
+            return MyHomePage();
+          }else{
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
     );
   }
 }

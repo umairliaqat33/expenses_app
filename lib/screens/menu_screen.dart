@@ -3,7 +3,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:expenses_app/widgets/RoundButton.dart';
 import 'Login_Screen.dart';
 import 'Registration_Screen.dart';
-import '../Start_Screen.dart';
+import '../MainScreen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const String id = 'welcome_screen';
@@ -85,12 +85,18 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => StartScreen()));
               }),
-              // RoundedButton(Colors.lightGreen, 'Registration', () {
-              //   Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //           builder: (context) => RegistrationScreen()));
-              // }),
+              RoundedButton(Colors.lightGreen, 'Registration', () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => RegistrationScreen()));
+              }),
+              RoundedButton(Colors.lightGreen, 'Login', () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => LoginScreen()));
+              }),
             ],
           ),
         ),

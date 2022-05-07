@@ -13,7 +13,7 @@ class StartScreen extends StatefulWidget {
 
 class _StartScreenState extends State<StartScreen> {
   final List<Transaction> _userTransaction = [
-    // Transaction("99", DateTime.now(), "E1", "First Expense"),
+    Transaction("99", DateTime.now(), "E1", "First Expense"),
   ];
 
   List<Transaction> get _recentTransactions {
@@ -26,16 +26,18 @@ class _StartScreenState extends State<StartScreen> {
     }).toList();
   }
 
-  void _addNewTransactions(String txtitle, String txamount,DateTime chosenDate) {
-    final newTx = Transaction(
-        txamount, chosenDate, DateTime.now().toString(), txtitle);
+  void _addNewTransactions(
+      String txtitle, String txamount, DateTime chosenDate) {
+    final newTx =
+        Transaction(txamount, chosenDate, DateTime.now().toString(), txtitle);
     setState(() {
       _userTransaction.add(newTx);
     });
   }
-  void deleteTransaction(String id){
+
+  void deleteTransaction(String id) {
     setState(() {
-      _userTransaction.remove((tx) => tx.id==id);
+      _userTransaction.remove((tx) => tx.id == id);
     });
   }
 
@@ -45,6 +47,7 @@ class _StartScreenState extends State<StartScreen> {
         builder: (BuildContext context) =>
             NewTransactions(_addNewTransactions));
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,18 +62,13 @@ class _StartScreenState extends State<StartScreen> {
           "Personal Expenses",
           style: TextStyle(
               fontFamily:
-              'Open Sans' //this is how we can use fonts families in any individual widget.
-          ),
+                  'Open Sans' //this is how we can use fonts families in any individual widget.
+              ),
         ),
         actions: [
           IconButton(
-            onPressed: () {
-              showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) =>
-                      NewTransactions(_addNewTransactions));
-            },
-            icon: Icon(Icons.add),
+            onPressed: () {},
+            icon: Icon(Icons.logout),
           )
         ],
       ),
@@ -80,7 +78,7 @@ class _StartScreenState extends State<StartScreen> {
           // crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Chart(_recentTransactions),
-            TransactionList(_userTransaction,deleteTransaction),
+            TransactionList(_userTransaction, deleteTransaction),
           ],
         ),
       ),
