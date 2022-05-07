@@ -5,6 +5,16 @@ class WelcomeUserScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back,color: Colors.green,),
+          onPressed: (){
+            Navigator.of(context).pop();
+          },
+        ),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -36,7 +46,8 @@ class WelcomeUserScreen extends StatelessWidget {
                   },
                   minWidth: 200.0,
                   height: 42.0,
-                  child: Text("Start Adding Expenses",
+                  child: Text(
+                    "Start Adding Expenses",
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
