@@ -112,6 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: MaterialButton(
                       onPressed: () {
                         singIn(emailController.text, passController.text);
+                        FocusManager.instance.primaryFocus?.unfocus();
                       },
                       minWidth: 200.0,
                       height: 42.0,
@@ -156,6 +157,8 @@ class _LoginScreenState extends State<LoginScreen> {
           .catchError((e) {
         Fluttertoast.showToast(msg: e.toString());
       });
+    }else{
+      Fluttertoast.showToast(msg: "Please check email or password and try again");
     }
   }
 }
