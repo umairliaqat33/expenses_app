@@ -1,7 +1,6 @@
 import 'package:expenses_app/screens/welcome_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:expenses_app/models/constants.dart';
-import 'package:expenses_app/screens/Registration_Screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -59,11 +58,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       // this will be checking if we have any value in it or not?
                       return "Field required";
                     }
-                    // if (RegExp("^[a-ZA-Z0-9+_.-]+@[a-ZA-Z0-9.-]+.[a-z]")
-                    //     .hasMatch(value)) {
-                    //   // this will be checking whether the value in it is an email or not?
-                    //   return "Enter a valid email";
-                    // }
+                    if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                        .hasMatch(value)) {
+                      // this will be checking whether the value in it is an email or not?
+                      return "Enter a valid email";
+                    }
                     return null;
                   },
                   cursorColor: Colors.green,
@@ -86,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       return "Field is required";
                     }
                     if (!regex.hasMatch(value)) {
-                      return "Please enter a valid password of 6 minimum characters";
+                      return "Password must contain 6 characters minimum";
                     }
                     return null;
                   },
@@ -155,10 +154,11 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.push(context,
               MaterialPageRoute(builder: (context) => WelcomeUserScreen()))
           .catchError((e) {
-        Fluttertoast.showToast(msg: e.toString());
+        Fluttertoast.showToast(msg: e);
       });
-    }else{
-      Fluttertoast.showToast(msg: "Please check email or password and try again");
+    } else {
+      Fluttertoast.showToast(
+          msg: "Please check email or password and try again");
     }
   }
 }
