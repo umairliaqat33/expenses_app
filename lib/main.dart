@@ -6,14 +6,14 @@ import 'models/Transact.dart';
 import 'widgets/chart.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-Future <void> main() async{
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final Future<FirebaseApp> _fbApp =Firebase.initializeApp();
+  final Future<FirebaseApp> _fbApp = Firebase.initializeApp();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,13 +27,13 @@ class MyApp extends StatelessWidget {
       title: "Personal Expenses",
       home: FutureBuilder(
         future: _fbApp,
-        builder: (context, snapshot){
-          if(snapshot.hasError){
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
             print("You have an error ${snapshot.error.toString()}");
             return Text("Something went wrong");
-          }else if(snapshot.hasData){
+          } else if (snapshot.hasData) {
             return MyHomePage();
-          }else{
+          } else {
             return Center(
               child: CircularProgressIndicator(),
             );
@@ -50,8 +50,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -64,8 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context)=>WelcomeScreen(),
-
+        '/': (context) => WelcomeScreen(),
       },
     );
   }

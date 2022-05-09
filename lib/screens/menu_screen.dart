@@ -92,10 +92,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                         builder: (context) => RegistrationScreen()));
               }),
               RoundedButton(Colors.lightGreen, 'Login', () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => LoginScreen()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
               }),
             ],
           ),
