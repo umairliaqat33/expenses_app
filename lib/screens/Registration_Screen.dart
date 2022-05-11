@@ -247,12 +247,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     User? user = _auth.currentUser;
     UserModel userModel = UserModel();
     userModel.email = user!.email;
-    userModel.Lname = F_name_Controller.text;
+    userModel.Fname = F_name_Controller.text;
     userModel.Lname = L_name_Controller.text;
     userModel.uid = user.uid;
 
     await firebaseFirestore
-        .collection('users')
+        .collection('user')
         .doc(user.uid)
         .set(userModel.toMap());
 

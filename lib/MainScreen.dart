@@ -1,7 +1,11 @@
+import 'package:expenses_app/screens/menu_screen.dart';
 import 'package:expenses_app/widgets/new_transactions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import './widgets/transaction_list.dart';
 import 'models/Transact.dart';
+import 'models/user_model.dart';
 import 'widgets/chart.dart';
 
 class StartScreen extends StatefulWidget {
@@ -13,8 +17,10 @@ class StartScreen extends StatefulWidget {
 
 class _StartScreenState extends State<StartScreen> {
   final List<Transaction> _userTransaction = [
-    Transaction("99", DateTime.now(), "E1", "First Expense"),
+    // Transaction("99", DateTime.now(), "E1", "First Expense"),
   ];
+  final user = FirebaseAuth.instance.currentUser;
+  UserModel loggedInUser = UserModel();
 
   List<Transaction> get _recentTransactions {
     return _userTransaction.where((tx) {
@@ -67,7 +73,9 @@ class _StartScreenState extends State<StartScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              logout();
+            },
             icon: Icon(Icons.logout),
           )
         ],
@@ -83,5 +91,14 @@ class _StartScreenState extends State<StartScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> logout() async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.push(
+            context, MaterialPageRoute(builder: (context) => WelcomeScreen()))
+        .catchError((e) {
+      Fluttertoast.showToast(msg: e);
+    });
   }
 }

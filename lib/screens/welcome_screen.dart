@@ -1,7 +1,36 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:expenses_app/MainScreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:expenses_app/models/user_model.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'menu_screen.dart';
 
-class WelcomeUserScreen extends StatelessWidget {
+class WelcomeUserScreen extends StatefulWidget {
+  @override
+  State<WelcomeUserScreen> createState() => _WelcomeUserScreenState();
+}
+
+class _WelcomeUserScreenState extends State<WelcomeUserScreen> {
+  final user = FirebaseAuth.instance.currentUser;
+  String lname = '';
+  String fname = '';
+  @override
+  void initState() {
+    super.initState();
+    FirebaseFirestore.instance
+        .collection("user")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      setState(() {
+        lname = value.get('lastname');
+        // print(lname);
+        fname = value.get('firstname');
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +57,16 @@ class WelcomeUserScreen extends StatelessWidget {
               child: Image.asset('assets/images/logo.png'),
             ),
             Text(
-              "User\'s name here!",
+              "Welcome",
+              style: TextStyle(
+                color: Theme.of(context).primaryColor,
+                fontWeight: FontWeight.bold,
+                fontSize: 30,
+                fontFamily: 'Quicksand',
+              ),
+            ),
+            Text(
+              "${fname} ${lname}",
               style: TextStyle(
                 color: Theme.of(context).primaryColor,
                 fontWeight: FontWeight.bold,
@@ -60,5 +98,14 @@ class WelcomeUserScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> logout() async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.push(
+            context, MaterialPageRoute(builder: (context) => WelcomeScreen()))
+        .catchError((e) {
+      Fluttertoast.showToast(msg: e);
+    });
   }
 }

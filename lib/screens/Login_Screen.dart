@@ -1,3 +1,4 @@
+import 'package:expenses_app/screens/Registration_Screen.dart';
 import 'package:expenses_app/screens/welcome_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:expenses_app/models/constants.dart';
@@ -131,7 +132,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           splashFactory: NoSplash
                               .splashFactory //removing onclick splash color
                           ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RegistrationScreen()));
+                      },
                       child: Text("SignUp"),
                     ),
                   ],
