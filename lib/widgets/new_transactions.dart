@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expenses_app/models/Transact.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 class NewTransactions extends StatefulWidget {
@@ -14,6 +18,7 @@ class _NewTransactionsState extends State<NewTransactions> {
   final titleController = TextEditingController();
   final amountController = TextEditingController();
   DateTime selectedDate = DateTime.now();
+  final _auth = FirebaseAuth.instance;
 
   DateTime DatePicker() {
     showDatePicker(
@@ -80,7 +85,7 @@ class _NewTransactionsState extends State<NewTransactions> {
                   onSubmitted: (_) =>
                       submitData(), //here the underscore means that we don't really need this argument we are just using it because of syntax
                 ),
-                TextField(
+                TextFormField(
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly
                   ],
@@ -92,7 +97,7 @@ class _NewTransactionsState extends State<NewTransactions> {
                   ),
                   keyboardType: TextInputType.number,
                   controller: amountController,
-                  onSubmitted: (_) =>
+                  onChanged: (_) =>
                       submitData(), //here the underscore means that we don't really need this argument we are just using it because of syntax
                 ),
                 Container(
@@ -125,8 +130,9 @@ class _NewTransactionsState extends State<NewTransactions> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    widget.addtx(titleController.text, amountController.text,
-                        selectedDate);
+                    postDetailsToFireStore();
+                    // widget.addtx(titleController.text, amountController.text,
+                    //     selectedDate);
                     Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
@@ -145,5 +151,26 @@ class _NewTransactionsState extends State<NewTransactions> {
         ),
       ),
     );
+  }
+
+  postDetailsToFireStore() async {
+    //calling our fireStore
+    //calling user model
+    //sending values
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+    Transactions transactions = Transactions();
+    transactions.title = titleController.text;
+    transactions.amount =int.parse(amountController.text) ;
+    transactions.date = DatePicker();
+
+    await firebaseFirestore
+        .collection('user')
+        .doc(user?.uid)
+        .collection('expenses')
+        .doc()
+        .set(transactions.toMap());
+
+    Fluttertoast.showToast(msg: "Account Created Successfully");
   }
 }

@@ -16,15 +16,15 @@ class StartScreen extends StatefulWidget {
 }
 
 class _StartScreenState extends State<StartScreen> {
-  final List<Transaction> _userTransaction = [
-    // Transaction("99", DateTime.now(), "E1", "First Expense"),
+  final List<Transactions> _userTransaction = [
+    Transactions(amount: 99, date: DateTime.now(),title: "First Expense"),
   ];
   final user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
 
-  List<Transaction> get _recentTransactions {
+  List<Transactions> get _recentTransactions {
     return _userTransaction.where((tx) {
-      return tx.date.isAfter(
+      return tx.date!.isAfter(
         DateTime.now().subtract(
           Duration(days: 7),
         ),
@@ -33,9 +33,9 @@ class _StartScreenState extends State<StartScreen> {
   }
 
   void _addNewTransactions(
-      String txtitle, String txamount, DateTime chosenDate) {
+      String txtitle, int txamount, DateTime chosenDate) {
     final newTx =
-        Transaction(txamount, chosenDate, DateTime.now().toString(), txtitle);
+        Transactions(amount: txamount, date: chosenDate, title: txtitle);
     setState(() {
       _userTransaction.add(newTx);
     });

@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'chart_bar.dart';
 
 class Chart extends StatelessWidget {
-  final List<Transaction> recentTransactions;
+  final List<Transactions> recentTransactions;
 
   Chart(this.recentTransactions);
   List<Map<String, Object>> get groupedTransactionsValues {
@@ -15,10 +15,10 @@ class Chart extends StatelessWidget {
               index)); //in this line we are getting today's date and time and subtracting it from the number of day which is index and get the information of all week Days.
       int totalSum = 0;
       for (var i = 0; i < recentTransactions.length; i++) {
-        if (recentTransactions[i].date.day == weekDay.day &&
-            recentTransactions[i].date.month == weekDay.month &&
-            recentTransactions[i].date.year == weekDay.year) {
-          totalSum += int.parse(recentTransactions[i].amount);
+        if (recentTransactions[i].date!.day == weekDay.day &&
+            recentTransactions[i].date!.month == weekDay.month &&
+            recentTransactions[i].date!.year == weekDay.year) {
+          totalSum += recentTransactions[i].amount!;
         }
       }
 

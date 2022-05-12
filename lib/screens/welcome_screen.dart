@@ -18,6 +18,10 @@ class _WelcomeUserScreenState extends State<WelcomeUserScreen> {
   @override
   void initState() {
     super.initState();
+    getValues();
+  }
+  void getValues(){
+
     FirebaseFirestore.instance
         .collection("user")
         .doc(user!.uid)

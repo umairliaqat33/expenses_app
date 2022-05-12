@@ -6,7 +6,7 @@ class TransactionList extends StatelessWidget {
   // @override
 
   @override
-  final List<Transaction> transactions;
+  final List<Transactions> transactions;
   final Function delettx;
   TransactionList(this.transactions, this.delettx);
 
@@ -73,14 +73,14 @@ class TransactionList extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            tx.title,
+                            tx.title!,
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
-                            DateFormat.yMMMd().format(tx.date),
+                            DateFormat.yMMMd().format(tx.date!),
                             style: TextStyle(
                               color: Colors.grey,
                             ),
@@ -92,7 +92,6 @@ class TransactionList extends StatelessWidget {
                         alignment: Alignment.centerRight,
                         child: IconButton(
                           onPressed: () {
-                            delettx(tx.id);
                           },
                           icon: Icon(Icons.delete),
                         ),
