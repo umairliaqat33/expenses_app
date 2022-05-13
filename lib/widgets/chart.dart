@@ -1,12 +1,56 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:expenses_app/models/Transact.dart';
 import 'package:intl/intl.dart';
 import 'chart_bar.dart';
 
-class Chart extends StatelessWidget {
-  final List<Transactions> recentTransactions;
+final _fireStore = FirebaseFirestore.instance;
+final _auth = FirebaseAuth.instance;
+User? user = _auth.currentUser;
+Transactions transactions = Transactions();
+List<Transactions> sampleList = [];
+List list=[];
+func() async{
+await  _fireStore
+      .collection('user')
+      .doc(user!.uid)
+      .collection('expenses')
+      .snapshots()
+      .listen((snap) {
+    snap.docs.forEach((d) {
+      sampleList.add(
+        Transactions(
+            amount: d.get('amount'),
+            date: DateTime.fromMicrosecondsSinceEpoch(d.get('date').microsecondsSinceEpoch),
+            title: d.get('title')),
+      );
+      // print(d.get('amount'));
+      // print(d.get('title'));
+      // print(d.get('date'));
+    });
+    print(sampleList.length);
+  });
+}
 
-  Chart(this.recentTransactions);
+List<Transactions> get _recentTransactions {
+  return sampleList.where((tx) {
+    return tx.date!.isAfter(
+      DateTime.now().subtract(
+        Duration(days: 7),
+      ),
+    );
+  }).toList();
+}
+
+class Chart extends StatefulWidget {
+  @override
+  State<Chart> createState() => _ChartState();
+}
+
+class _ChartState extends State<Chart> {
+  final List<Transactions> recentTransaction = _recentTransactions;
   List<Map<String, Object>> get groupedTransactionsValues {
     //we are using list type map because we have to return two things date and amount
     return List.generate(7, (index) {
@@ -14,11 +58,11 @@ class Chart extends StatelessWidget {
           days:
               index)); //in this line we are getting today's date and time and subtracting it from the number of day which is index and get the information of all week Days.
       int totalSum = 0;
-      for (var i = 0; i < recentTransactions.length; i++) {
-        if (recentTransactions[i].date!.day == weekDay.day &&
-            recentTransactions[i].date!.month == weekDay.month &&
-            recentTransactions[i].date!.year == weekDay.year) {
-          totalSum += recentTransactions[i].amount!;
+      for (var i = 0; i < recentTransaction.length; i++) {
+        if (recentTransaction[i].date!.day == weekDay.day &&
+            recentTransaction[i].date!.month == weekDay.month &&
+            recentTransaction[i].date!.year == weekDay.year) {
+          totalSum += recentTransaction[i].amount!;
         }
       }
 
@@ -34,11 +78,19 @@ class Chart extends StatelessWidget {
       return sum + (ite['amount'] as int);
     });
   }
+  @override
+  void initState(){
+    super.initState();
+    func();
+  }
 
   @override
   Widget build(BuildContext context) {
-    // print(groupedTransactionsValues);
-    // print(maxSpendi);
+    // func();
+    print(groupedTransactionsValues);
+    print(maxSpendi);
+    print(transactions.amount);
+    print(sampleList);
     return Card(
       elevation: 6,
       margin: EdgeInsets.all(20),

@@ -1,12 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expenses_app/screens/menu_screen.dart';
 import 'package:expenses_app/widgets/new_transactions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import './widgets/transaction_list.dart';
-import 'models/Transact.dart';
-import 'models/user_model.dart';
+import 'widgets/new_transactions.dart';
 import 'widgets/chart.dart';
+final _fireStore = FirebaseFirestore.instance;
+final _auth = FirebaseAuth.instance;
+User? user=_auth.currentUser;
 
 class StartScreen extends StatefulWidget {
   // const StartScreen({Key? key}) : super(key: key);
@@ -16,50 +19,15 @@ class StartScreen extends StatefulWidget {
 }
 
 class _StartScreenState extends State<StartScreen> {
-  final List<Transactions> _userTransaction = [
-    Transactions(amount: 99, date: DateTime.now(),title: "First Expense"),
-  ];
-  final user = FirebaseAuth.instance.currentUser;
-  UserModel loggedInUser = UserModel();
-
-  List<Transactions> get _recentTransactions {
-    return _userTransaction.where((tx) {
-      return tx.date!.isAfter(
-        DateTime.now().subtract(
-          Duration(days: 7),
-        ),
-      );
-    }).toList();
-  }
-
-  void _addNewTransactions(
-      String txtitle, int txamount, DateTime chosenDate) {
-    final newTx =
-        Transactions(amount: txamount, date: chosenDate, title: txtitle);
-    setState(() {
-      _userTransaction.add(newTx);
-    });
-  }
-
-  void deleteTransaction(String id) {
-    setState(() {
-      _userTransaction.remove((tx) => tx.id == id);
-    });
-  }
-
-  void _StartNewTransaction(BuildContext ctx) {
-    showModalBottomSheet(
-        context: ctx,
-        builder: (BuildContext context) =>
-            NewTransactions(_addNewTransactions));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // resizeToAvoidBottomInset: false,
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _StartNewTransaction(context),
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => NewTransactions()));
+        },
         child: Icon(Icons.add),
       ),
       appBar: AppBar(
@@ -82,11 +50,9 @@ class _StartScreenState extends State<StartScreen> {
       ),
       body: SingleChildScrollView(
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          // crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Chart(_recentTransactions),
-            TransactionList(_userTransaction, deleteTransaction),
+            Chart(),
+            TransactionList(),
           ],
         ),
       ),
@@ -95,7 +61,7 @@ class _StartScreenState extends State<StartScreen> {
 
   Future<void> logout() async {
     await FirebaseAuth.instance.signOut();
-    Navigator.push(
+    Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => WelcomeScreen()))
         .catchError((e) {
       Fluttertoast.showToast(msg: e);

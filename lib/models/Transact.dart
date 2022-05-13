@@ -1,15 +1,11 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:flutter/material.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-
 class Transactions {
-   String? title;
-   int? amount;
-   DateTime? date;
+  String? title;
+  int? amount;
+  DateTime? date;
   // final user = FirebaseAuth.instance.currentUser;
 
   Transactions({this.amount, this.date, this.title});
-
+  List<Transactions> transaction=[];
   factory Transactions.fromMap(map) {
     return Transactions(
         title: map['title'],

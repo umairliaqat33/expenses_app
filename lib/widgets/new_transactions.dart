@@ -7,8 +7,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 class NewTransactions extends StatefulWidget {
-  final Function addtx;
-  NewTransactions(this.addtx);
+  // final Function addtx;
+  // NewTransactions(this.addtx);
 
   @override
   State<NewTransactions> createState() => _NewTransactionsState();
@@ -19,7 +19,6 @@ class _NewTransactionsState extends State<NewTransactions> {
   final amountController = TextEditingController();
   DateTime selectedDate = DateTime.now();
   final _auth = FirebaseAuth.instance;
-
   DateTime DatePicker() {
     showDatePicker(
             context: context,
@@ -43,7 +42,7 @@ class _NewTransactionsState extends State<NewTransactions> {
     if (enteredTitle.isEmpty || enteredAmount.isEmpty || selectedDate == null) {
       return;
     }
-    widget.addtx(enteredTitle, enteredAmount, selectedDate);
+    // widget.addtx(enteredTitle, enteredAmount, selectedDate);
     Navigator.of(context).pop();
   }
 
@@ -162,7 +161,7 @@ class _NewTransactionsState extends State<NewTransactions> {
     Transactions transactions = Transactions();
     transactions.title = titleController.text;
     transactions.amount =int.parse(amountController.text) ;
-    transactions.date = DatePicker();
+    transactions.date = selectedDate;
 
     await firebaseFirestore
         .collection('user')
@@ -171,6 +170,6 @@ class _NewTransactionsState extends State<NewTransactions> {
         .doc()
         .set(transactions.toMap());
 
-    Fluttertoast.showToast(msg: "Account Created Successfully");
+    Fluttertoast.showToast(msg: "Transaction Added Successfully");
   }
 }

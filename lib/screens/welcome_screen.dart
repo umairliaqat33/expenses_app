@@ -106,7 +106,7 @@ class _WelcomeUserScreenState extends State<WelcomeUserScreen> {
 
   Future<void> logout() async {
     await FirebaseAuth.instance.signOut();
-    Navigator.push(
+    Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => WelcomeScreen()))
         .catchError((e) {
       Fluttertoast.showToast(msg: e);

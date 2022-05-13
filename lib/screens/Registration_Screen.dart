@@ -257,7 +257,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         .set(userModel.toMap());
 
     Fluttertoast.showToast(msg: "Account Created Successfully");
-    Navigator.push(
+    Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => WelcomeUserScreen()));
   }
 }
