@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:expenses_app/widgets/RoundButton.dart';
-import 'Login_Screen.dart';
-import 'Registration_Screen.dart';
-import '../MainScreen.dart';
+import 'screens/Login_Screen.dart';
+import 'screens/Registration_Screen.dart';
+import 'screens/MainScreen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const String id = 'welcome_screen';
@@ -30,7 +30,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     controller.forward();
     controller.addListener(() {
       setState(() {});
-      // print(animation.value);
     });
   }
 
@@ -81,10 +80,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               SizedBox(
                 height: 48.0,
               ),
-              RoundedButton(Colors.green, "Start App", () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => StartScreen()));
-              }),
               RoundedButton(Colors.lightGreen, 'Registration', () {
                 Navigator.push(
                     context,

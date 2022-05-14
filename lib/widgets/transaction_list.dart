@@ -7,7 +7,12 @@ final _fireStore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
 User? user = _auth.currentUser;
 
-class TransactionList extends StatelessWidget {
+class TransactionList extends StatefulWidget {
+  @override
+  State<TransactionList> createState() => _TransactionListState();
+}
+
+class _TransactionListState extends State<TransactionList> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,7 +28,7 @@ class TransactionList extends StatelessWidget {
           return snapshot.connectionState == ConnectionState.waiting
               ? Center(
                   child: CircularProgressIndicator(
-                  valueColor: new AlwaysStoppedAnimation<Color>(Colors.orange),
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
                 ))
               : snapshot.data!.docs.isEmpty
                   ? Column(

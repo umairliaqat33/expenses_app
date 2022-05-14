@@ -1,13 +1,13 @@
-import 'package:expenses_app/screens/menu_screen.dart';
-import 'package:expenses_app/widgets/new_transactions.dart';
+import 'package:expenses_app/screens/Login_Screen.dart';
+import 'package:expenses_app/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
-import './widgets/transaction_list.dart';
-import 'models/Transact.dart';
-import 'widgets/chart.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+User? user = FirebaseAuth.instance.currentUser;
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();           //these two lines are necessary to start using firebase.
   await Firebase.initializeApp();
   runApp(MyApp());
 }
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         // accentColor: Colors.yellowAccent,
       ),
       title: "Personal Expenses",
-      home: FutureBuilder(
+      home: FutureBuilder(        //this class is generally used to start firebase in actual.
         future: _fbApp,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
@@ -58,11 +58,13 @@ class _MyHomePageState extends State<MyHomePage> {
             'Quicksand', //this is how we use fonts for the whole project. To use individually so look in Appbar widget.
         primarySwatch: Colors.green,
         primaryColor: Colors.green,
-        // accentColor: Colors.yellowAccent,
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => WelcomeScreen(),
+        '/': (context) => user == null
+            ? LoginScreen()
+            : WelcomeUserScreen(), //it checks if there is any user currently logged in if yes then go show
+        //welcomeUserScreen which is welcome screen other wise go to login screen.
       },
     );
   }

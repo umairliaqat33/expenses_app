@@ -1,10 +1,8 @@
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:expenses_app/MainScreen.dart';
+import 'package:expenses_app/screens/MainScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:expenses_app/models/user_model.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'menu_screen.dart';
 
 class WelcomeUserScreen extends StatefulWidget {
   @override
@@ -15,21 +13,32 @@ class _WelcomeUserScreenState extends State<WelcomeUserScreen> {
   final user = FirebaseAuth.instance.currentUser;
   String lname = '';
   String fname = '';
+
+  Time() {
+    Timer(Duration(seconds: 3), () {
+      //this timer function is used to switch to StartScreen class automatically after 10 seconds and it requires import 'dart:async';.
+      Navigator.pushReplacement(
+          context, //push replacement is used to replace the previous widget with the new one.
+          MaterialPageRoute(builder: (context) => StartScreen()));
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     getValues();
+    // Time();
   }
-  void getValues(){
 
-    FirebaseFirestore.instance
+  void getValues() {
+    FirebaseFirestore
+        .instance //this is how we get data from firebase about a particular field as we can see in lname and fname
         .collection("user")
         .doc(user!.uid)
         .get()
         .then((value) {
       setState(() {
         lname = value.get('lastname');
-        // print(lname);
         fname = value.get('firstname');
       });
     });
@@ -102,14 +111,5 @@ class _WelcomeUserScreenState extends State<WelcomeUserScreen> {
         ),
       ),
     );
-  }
-
-  Future<void> logout() async {
-    await FirebaseAuth.instance.signOut();
-    Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => WelcomeScreen()))
-        .catchError((e) {
-      Fluttertoast.showToast(msg: e);
-    });
   }
 }
