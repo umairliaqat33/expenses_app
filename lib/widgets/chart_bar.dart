@@ -7,9 +7,6 @@ class ChartBar extends StatelessWidget {
   ChartBar(this.label, this.spending, this.totalSendingPercen);
   @override
   Widget build(BuildContext context) {
-    // print(spending);
-    // print(label);
-    // print(totalSendingPercen);
     return Column(
       children: <Widget>[
         Container(

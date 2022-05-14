@@ -8,9 +8,10 @@ import '../widgets/transaction_list.dart';
 import '../models/Transact.dart';
 import '../widgets/new_transactions.dart';
 import '../widgets/chart.dart';
+
 final _fireStore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
-User? user=_auth.currentUser;
+User? user = _auth.currentUser;
 
 class StartScreen extends StatefulWidget {
   // const StartScreen({Key? key}) : super(key: key);
@@ -22,25 +23,30 @@ class StartScreen extends StatefulWidget {
 class _StartScreenState extends State<StartScreen> {
   Transactions transactions = Transactions();
   List<Transactions> sampleList = [];
-  func() async{                   //getting a list of transaction type from firebase using this complex function
-    await  _fireStore
+  func() async {
+    //getting a list of transaction type from firebase using this complex function
+    await _fireStore
         .collection('user')
         .doc(user!.uid)
         .collection('expenses')
-        .snapshots()            //snapshot is actually is the right thing which is returning us all the values from firebase.
+        .snapshots() //snapshot is actually is the right thing which is returning us all the values from firebase.
         .listen((snap) {
-      snap.docs.forEach((d) {     //forEach is used to give all the data in the form of a loop and gives us all data from firebase and we can store where ever we want.
+      snap.docs.forEach((d) {
+        //forEach is used to give all the data in the form of a loop and gives us all data from firebase and we can store where ever we want.
         sampleList.add(
           Transactions(
               amount: d.get('amount'),
-              date: DateTime.fromMicrosecondsSinceEpoch(d.get('date').microsecondsSinceEpoch),    //this is how we can convert timeStamp into dateTime
+              date: DateTime.fromMicrosecondsSinceEpoch(d
+                  .get('date')
+                  .microsecondsSinceEpoch), //this is how we can convert timeStamp into dateTime
               title: d.get('title')),
         );
       });
     });
   }
 
-  List<Transactions> get _recentTransactions {          //this getter is giving us the most recent transactions of 7 days from today.
+  List<Transactions> get _recentTransactions {
+    //this getter is giving us the most recent transactions of 7 days from today.
     return sampleList.where((tx) {
       return tx.date!.isAfter(
         DateTime.now().subtract(
@@ -50,8 +56,12 @@ class _StartScreenState extends State<StartScreen> {
     }).toList();
   }
 
+  Future<Null> getRefresh() async {
+    await Future.delayed(Duration(seconds: 3));
+  }
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
     func();
   }
@@ -64,10 +74,9 @@ class _StartScreenState extends State<StartScreen> {
         onPressed: () {
           AlertDialog(
             title: Text("Add new transaction"),
-
           );
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => NewTransactions()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => NewTransactions()));
         },
         child: Icon(Icons.add),
       ),
@@ -89,19 +98,27 @@ class _StartScreenState extends State<StartScreen> {
           )
         ],
       ),
-      body: SingleChildScrollView(      //this will provide us a scroll screen doesn't matter how many widgets appear
-        child: Column(
-          children: <Widget>[
-            Chart(_recentTransactions),
-            TransactionList(),
-          ],
-        ),
+      body: RefreshIndicator(
+        onRefresh: getRefresh,
+        child: ListView.builder(
+            itemCount: 1,
+            itemBuilder: (context, index) {
+              return SingleChildScrollView(
+                //this will provide us a scroll screen doesn't matter how many widgets appear
+                child: Column(
+                  children: <Widget>[
+                    Chart(_recentTransactions),
+                    TransactionList(),
+                  ],
+                ),
+              );
+            }),
       ),
     );
   }
 
   Future<void> logout() async {
-    await FirebaseAuth.instance.signOut();          //signOut function called
+    await FirebaseAuth.instance.signOut(); //signOut function called
     Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => WelcomeScreen()))
         .catchError((e) {

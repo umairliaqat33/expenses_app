@@ -15,7 +15,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  bool err=false;
+  bool err = false;
   final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
@@ -73,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   controller: emailController,
                   decoration: kMessageTextFieldDecoration.copyWith(
                     hintText: 'Enter Your Email',
-                    errorText: !err?"Email did not match":"",
+                    errorText: !err ? "Email did not match" : "",
                     icon: Icon(Icons.email),
                   ),
                 ),
@@ -99,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: kMessageTextFieldDecoration.copyWith(
                     hintText: 'Enter Your Password',
                     icon: Icon(Icons.vpn_key),
-                    errorText: !err?"Password did not match":"",
+                    errorText: !err ? "Password did not match" : "",
                   ),
                 ),
                 SizedBox(
@@ -154,24 +154,23 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void singIn(String email, String password) async {
     if (_formKey.currentState!.validate()) {
-      try{
+      try {
         await _auth
             .signInWithEmailAndPassword(email: email, password: password)
             .then((uid) {
           Fluttertoast.showToast(msg: "Login Successful");
         });
         Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => WelcomeUserScreen()))
+                MaterialPageRoute(builder: (context) => WelcomeUserScreen()))
             .catchError((e) {
           Fluttertoast.showToast(msg: e);
         });
-      }catch(e){
+      } catch (e) {
         Fluttertoast.showToast(msg: e.toString());
       }
-
     } else {
       setState(() {
-        err=true;
+        err = true;
       });
       Fluttertoast.showToast(
           msg: "Please check email or password and try again");

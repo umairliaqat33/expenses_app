@@ -7,7 +7,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 User? user = FirebaseAuth.instance.currentUser;
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();           //these two lines are necessary to start using firebase.
+  WidgetsFlutterBinding
+      .ensureInitialized(); //these two lines are necessary to start using firebase.
   await Firebase.initializeApp();
   runApp(MyApp());
 }
@@ -25,7 +26,8 @@ class MyApp extends StatelessWidget {
         // accentColor: Colors.yellowAccent,
       ),
       title: "Personal Expenses",
-      home: FutureBuilder(        //this class is generally used to start firebase in actual.
+      home: FutureBuilder(
+        //this class is generally used to start firebase in actual.
         future: _fbApp,
         builder: (context, snapshot) {
           if (snapshot.hasError) {

@@ -15,7 +15,7 @@ class _WelcomeUserScreenState extends State<WelcomeUserScreen> {
   String fname = '';
 
   Time() {
-    Timer(Duration(seconds: 3), () {
+    Timer(Duration(seconds: 5), () {
       //this timer function is used to switch to StartScreen class automatically after 10 seconds and it requires import 'dart:async';.
       Navigator.pushReplacement(
           context, //push replacement is used to replace the previous widget with the new one.
@@ -27,7 +27,7 @@ class _WelcomeUserScreenState extends State<WelcomeUserScreen> {
   void initState() {
     super.initState();
     getValues();
-    // Time();
+    Time();
   }
 
   void getValues() {
@@ -87,26 +87,26 @@ class _WelcomeUserScreenState extends State<WelcomeUserScreen> {
                 fontFamily: 'Quicksand',
               ),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: Material(
-                color: Theme.of(context).primaryColor,
-                borderRadius: BorderRadius.circular(30.0),
-                elevation: 5.0,
-                child: MaterialButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => StartScreen()));
-                  },
-                  minWidth: 200.0,
-                  height: 42.0,
-                  child: Text(
-                    "Start Adding Expenses",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ),
-            )
+            // Padding(
+            //   padding: EdgeInsets.symmetric(vertical: 16.0),
+            //   child: Material(
+            //     color: Theme.of(context).primaryColor,
+            //     borderRadius: BorderRadius.circular(30.0),
+            //     elevation: 5.0,
+            //     child: MaterialButton(
+            //       onPressed: () {
+            //         Navigator.push(context,
+            //             MaterialPageRoute(builder: (context) => StartScreen()));
+            //       },
+            //       minWidth: 200.0,
+            //       height: 42.0,
+            //       child: Text(
+            //         "Start Adding Expenses",
+            //         style: TextStyle(color: Colors.white),
+            //       ),
+            //     ),
+            //   ),
+            // )
           ],
         ),
       ),

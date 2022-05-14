@@ -40,6 +40,10 @@ class Chart extends StatelessWidget {
     });
   }
 
+  Future<Null> getRefresh() async {
+    await Future.delayed(Duration(seconds: 3));
+  }
+
   @override
   Widget build(BuildContext context) {
     return recentTransaction.isEmpty
@@ -50,31 +54,34 @@ class Chart extends StatelessWidget {
                 "Chart will be loaded here",
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              // CircularProgressIndicator(
-              //   valueColor: new AlwaysStoppedAnimation<Color>(Colors.orange),
-              // ),
+              CircularProgressIndicator(
+                valueColor: new AlwaysStoppedAnimation<Color>(Colors.orange),
+              ),
             ],
           ))
-        : Card(
-            elevation: 6,
-            margin: EdgeInsets.all(20),
-            child: Padding(
-              padding: EdgeInsets.all(4.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: groupedTransactionsValues.map((data) {
-                  // print(data['amount']);
-                  return Flexible(
-                    fit: FlexFit.tight,
-                    child: ChartBar(
-                        data['day'].toString(),
-                        data['amount'],
-                        maxSpendi == 0.0
-                            ? 0.0
-                            : (double.parse(data['amount'].toString())) /
-                                maxSpendi),
-                  );
-                }).toList(),
+        : RefreshIndicator(
+            onRefresh: getRefresh,
+            child: Card(
+              elevation: 6,
+              margin: EdgeInsets.all(20),
+              child: Padding(
+                padding: EdgeInsets.all(4.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: groupedTransactionsValues.map((data) {
+                    // print(data['amount']);
+                    return Flexible(
+                      fit: FlexFit.tight,
+                      child: ChartBar(
+                          data['day'].toString(),
+                          data['amount'],
+                          maxSpendi == 0.0
+                              ? 0.0
+                              : (double.parse(data['amount'].toString())) /
+                                  maxSpendi),
+                    );
+                  }).toList(),
+                ),
               ),
             ),
           );
