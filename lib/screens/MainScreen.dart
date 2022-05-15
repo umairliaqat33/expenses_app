@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expenses_app/menu_screen.dart';
 import 'package:expenses_app/widgets/new_transactions.dart';
@@ -23,8 +25,10 @@ class StartScreen extends StatefulWidget {
 class _StartScreenState extends State<StartScreen> {
   Transactions transactions = Transactions();
   List<Transactions> sampleList = [];
+
   func() async {
     //getting a list of transaction type from firebase using this complex function
+    sampleList.clear();
     await _fireStore
         .collection('user')
         .doc(user!.uid)
@@ -33,14 +37,17 @@ class _StartScreenState extends State<StartScreen> {
         .listen((snap) {
       snap.docs.forEach((d) {
         //forEach is used to give all the data in the form of a loop and gives us all data from firebase and we can store where ever we want.
-        sampleList.add(
-          Transactions(
-              amount: d.get('amount'),
-              date: DateTime.fromMicrosecondsSinceEpoch(d
-                  .get('date')
-                  .microsecondsSinceEpoch), //this is how we can convert timeStamp into dateTime
-              title: d.get('title')),
-        );
+        setState(() {
+          sampleList.add(
+            Transactions(
+                amount: d.get('amount'),
+                date: DateTime.fromMicrosecondsSinceEpoch(d
+                    .get('date')
+                    .microsecondsSinceEpoch), //this is how we can convert timeStamp into dateTime
+                title: d.get('title')),
+          );
+        });
+
       });
     });
   }
@@ -62,8 +69,8 @@ class _StartScreenState extends State<StartScreen> {
 
   @override
   void initState() {
+    sampleList.clear();
     super.initState();
-    func();
   }
 
   @override

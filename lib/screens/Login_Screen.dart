@@ -15,7 +15,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  bool err = false;
+  bool err = true;
   final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
@@ -113,6 +113,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     elevation: 5.0,
                     child: MaterialButton(
                       onPressed: () {
+                        setState(() {
+                          err = false;
+                        });
+
                         singIn(emailController.text, passController.text);
                         FocusManager.instance.primaryFocus?.unfocus();
                       },
@@ -169,9 +173,6 @@ class _LoginScreenState extends State<LoginScreen> {
         Fluttertoast.showToast(msg: e.toString());
       }
     } else {
-      setState(() {
-        err = true;
-      });
       Fluttertoast.showToast(
           msg: "Please check email or password and try again");
     }

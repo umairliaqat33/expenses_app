@@ -148,8 +148,6 @@ class _NewTransactionsState extends State<NewTransactions> {
                   ElevatedButton(
                     onPressed: () {
                       postDetailsToFireStore();
-                      // widget.addtx(titleController.text, amountController.text,
-                      //     selectedDate);
                       Navigator.of(context).pop();
                     },
                     style: ElevatedButton.styleFrom(

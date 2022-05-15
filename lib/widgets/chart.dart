@@ -4,7 +4,6 @@ import 'package:expenses_app/models/Transact.dart';
 import 'package:intl/intl.dart';
 import 'chart_bar.dart';
 
-// final _fireStore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
 User? user = _auth.currentUser;
 
@@ -40,50 +39,31 @@ class Chart extends StatelessWidget {
     });
   }
 
-  Future<Null> getRefresh() async {
-    await Future.delayed(Duration(seconds: 3));
-  }
 
   @override
   Widget build(BuildContext context) {
-    return recentTransaction.isEmpty
-        ? Center(
-            child: Column(
-            children: [
-              Text(
-                "Chart will be loaded here",
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              CircularProgressIndicator(
-                valueColor: new AlwaysStoppedAnimation<Color>(Colors.orange),
-              ),
-            ],
-          ))
-        : RefreshIndicator(
-            onRefresh: getRefresh,
-            child: Card(
-              elevation: 6,
-              margin: EdgeInsets.all(20),
-              child: Padding(
-                padding: EdgeInsets.all(4.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: groupedTransactionsValues.map((data) {
-                    // print(data['amount']);
-                    return Flexible(
-                      fit: FlexFit.tight,
-                      child: ChartBar(
-                          data['day'].toString(),
-                          data['amount'],
-                          maxSpendi == 0.0
-                              ? 0.0
-                              : (double.parse(data['amount'].toString())) /
-                                  maxSpendi),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ),
-          );
+    return Card(
+      elevation: 6,
+      margin: EdgeInsets.all(20),
+      child: Padding(
+        padding: EdgeInsets.all(4.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: groupedTransactionsValues.map((data) {
+            // print(data['amount']);
+            return Flexible(
+              fit: FlexFit.tight,
+              child: ChartBar(
+                  data['day'].toString(),
+                  data['amount'],
+                  maxSpendi == 0.0
+                      ? 0.0
+                      : (double.parse(data['amount'].toString())) /
+                          maxSpendi),
+            );
+          }).toList(),
+        ),
+      ),
+    );
   }
 }
