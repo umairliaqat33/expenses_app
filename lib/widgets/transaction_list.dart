@@ -128,6 +128,7 @@ class _TransactionListState extends State<TransactionList> {
                                     child: IconButton(
                                       onPressed: () {
                                         Transactions.delete(data);
+                                        Transactions.clearit;
                                         Chart(Transactions.recentTransactions);
                                       },
                                       icon: Icon(Icons.delete),

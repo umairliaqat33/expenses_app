@@ -13,6 +13,8 @@ class Chart extends StatelessWidget {
 
   Chart(this.recentTransaction);
 
+
+
   List<Map<String, Object>> get groupedTransactionsValues {
     //we are using list type map because we have to return two things date and amount
     return List.generate(7, (index) {
@@ -46,7 +48,7 @@ class Chart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<Transactions>(
       builder: (context, Transactions, child) {
-        Transactions.sampleList.clear();
+        // Transactions.sampleList.clear();
         return Card(
         elevation: 6,
         margin: EdgeInsets.all(20),

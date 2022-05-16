@@ -1,16 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expenses_app/models/Transact.dart';
-// import 'package:expenses_app/models/Transact.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:expenses_app/widgets/chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../models/Transact.dart';
-import 'chart.dart';
-// import '../models/Transact.dart';
 
 class NewTransactions extends StatefulWidget {
   // final Function addtx;
@@ -24,8 +19,6 @@ class _NewTransactionsState extends State<NewTransactions> {
   final titleController = TextEditingController();
   final amountController = TextEditingController();
   DateTime selectedDate = DateTime.now();
-  final _formKey = GlobalKey<FormState>();
-  final _auth = FirebaseAuth.instance;
   DateTime DatePicker() {
     showDatePicker(
         context: context,
@@ -139,6 +132,7 @@ class _NewTransactionsState extends State<NewTransactions> {
                 onPressed: () {
                   Transactions.postDetailsToFireStore();
                   Navigator.of(context).pop();
+                  Transactions.clearit;
                   Chart(Transactions.recentTransactions);
 
                 },

@@ -69,6 +69,7 @@ class _StartScreenState extends State<StartScreen> {
                     children: <Widget>[
                       Chart(Transactions.recentTransactions),
                       TransactionList(),
+
                     ],
                   ),
                 );
