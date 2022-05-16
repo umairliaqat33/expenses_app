@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expenses_app/models/Transact.dart';
 import 'package:flutter/material.dart';
 import 'package:expenses_app/screens/MainScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
 class WelcomeUserScreen extends StatefulWidget {
   @override
@@ -46,70 +48,74 @@ class _WelcomeUserScreenState extends State<WelcomeUserScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.green,
+    return Consumer<Transactions>(
+      builder: (context, Transactions,child) {
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.green,
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
         ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Hero(
-              tag: 'logo',
-              child: Image.asset('assets/images/logo.png'),
-            ),
-            Text(
-              "Welcome",
-              style: TextStyle(
-                color: Theme.of(context).primaryColor,
-                fontWeight: FontWeight.bold,
-                fontSize: 30,
-                fontFamily: 'Quicksand',
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Hero(
+                tag: 'logo',
+                child: Image.asset('assets/images/logo.png'),
               ),
-            ),
-            Text(
-              "${fname} ${lname}",
-              style: TextStyle(
-                color: Theme.of(context).primaryColor,
-                fontWeight: FontWeight.bold,
-                fontSize: 30,
-                fontFamily: 'Quicksand',
+              Text(
+                "Welcome",
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
+                  fontFamily: 'Quicksand',
+                ),
               ),
-            ),
-            // Padding(
-            //   padding: EdgeInsets.symmetric(vertical: 16.0),
-            //   child: Material(
-            //     color: Theme.of(context).primaryColor,
-            //     borderRadius: BorderRadius.circular(30.0),
-            //     elevation: 5.0,
-            //     child: MaterialButton(
-            //       onPressed: () {
-            //         Navigator.push(context,
-            //             MaterialPageRoute(builder: (context) => StartScreen()));
-            //       },
-            //       minWidth: 200.0,
-            //       height: 42.0,
-            //       child: Text(
-            //         "Start Adding Expenses",
-            //         style: TextStyle(color: Colors.white),
-            //       ),
-            //     ),
-            //   ),
-            // )
-          ],
+              Text(
+                "${fname} ${lname}",
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
+                  fontFamily: 'Quicksand',
+                ),
+              ),
+              // Padding(
+              //   padding: EdgeInsets.symmetric(vertical: 16.0),
+              //   child: Material(
+              //     color: Theme.of(context).primaryColor,
+              //     borderRadius: BorderRadius.circular(30.0),
+              //     elevation: 5.0,
+              //     child: MaterialButton(
+              //       onPressed: () {
+              //         Navigator.push(context,
+              //             MaterialPageRoute(builder: (context) => StartScreen()));
+              //       },
+              //       minWidth: 200.0,
+              //       height: 42.0,
+              //       child: Text(
+              //         "Start Adding Expenses",
+              //         style: TextStyle(color: Colors.white),
+              //       ),
+              //     ),
+              //   ),
+              // )
+            ],
+          ),
         ),
-      ),
+      );
+      }
     );
   }
 }

@@ -1,10 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expenses_app/models/Transact.dart';
+// import 'package:expenses_app/models/Transact.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+
+import '../models/Transact.dart';
+import 'chart.dart';
+// import '../models/Transact.dart';
 
 class NewTransactions extends StatefulWidget {
   // final Function addtx;
@@ -37,157 +43,120 @@ class _NewTransactionsState extends State<NewTransactions> {
     return selectedDate;
   }
 
-  // void submitData() {
-  //   final enteredTitle = titleController.text;
-  //   final enteredAmount = amountController.text;
-  //   // if (enteredTitle.isEmpty || enteredAmount.isEmpty || selectedDate == null) {
-  //   //   return;
-  //   // }
-  //   // widget.addtx(enteredTitle, enteredAmount, selectedDate);
-  //   Navigator.of(context).pop();
-  // }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Color(0xFF757575),
-      child: AlertDialog(
-        actions: [Container(
+    return Consumer<Transactions>(
+      builder: (context, Transactions, child) {
+      return Container(
+        color: Color(0xFF757575),
+        child: Container(
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.transparent,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(40),
-              topRight: Radius.circular(40),
-            ),
-          ),
-          // height: 500,
-          child: Card(
-            elevation: 5,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(40),
-                  topRight: Radius.circular(40),
-                ),
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20)
+              )
+          ),child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              TextFormField(
+                // autofocus: true,
+                decoration: InputDecoration(
+                    labelText: 'Title',
+                    enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.green)),
+                    labelStyle: TextStyle(color: Colors.green)),
+                validator: (value){
+                  if(value!.isEmpty){
+                    return "Title is required";
+                  }
+                },
+                onChanged: (value){
+                  Transactions.setTitle(value);
+                },
+                // onSubmitted: (_) =>
+                    // submitData(), //here the underscore means that we don't really need this argument we are just using it because of syntax
               ),
-              padding: EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  TextFormField(
-                    // autofocus: true,
-                    decoration: InputDecoration(
-                        labelText: 'Title',
-                        enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.green)),
-                        labelStyle: TextStyle(color: Colors.green)),
-                    controller: titleController,
-                    validator: (value){
-                      if(value!.isEmpty){
-                        return "Title is required";
-                      }
-                    },
-                    // onSubmitted: (_) =>
-                        // submitData(), //here the underscore means that we don't really need this argument we are just using it because of syntax
-                  ),
-                  TextFormField(
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.digitsOnly
-                    ],
-                    validator: (value){
-                      if(value!.isEmpty){
-                        return "Title is required";
-                      }
-                    },
-                    decoration: InputDecoration(
-                      labelText: 'Amount',
-                      labelStyle: TextStyle(color: Colors.green),
-                      enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.green)),
-                    ),
-                    keyboardType: TextInputType.number,
-                    controller: amountController,
-                    // onChanged: (_) =>
-                        // submitData(), //here the underscore means that we don't really need this argument we are just using it because of syntax
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: Text("Make Sure to select your own date",style: TextStyle(
-                      color: Colors.green,
-                    ),),
-                  ),
-                  Container(
-                    // height: 70,
-                    margin: EdgeInsets.only(top: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Expanded(
-                          child: Text(
-                            selectedDate == DateTime.now()
-                                ? "No date chosen"
-                                : "Picked Date: ${(DateFormat.yMd().format(selectedDate))}",
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            DatePicker();
-                          },
-                          child: Text(
-                            "Chose Date",
-                            style: TextStyle(
-                              color: Colors.green,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      postDetailsToFireStore();
-                      Navigator.of(context).pop();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.green,
-                    ),
-                    child: Text(
-                      "Add Transaction",
-                      style: TextStyle(
-                        fontSize: 20,
+              TextFormField(
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly
+                ],
+                validator: (value){
+                  if(value!.isEmpty){
+                    return "Amount is required";
+                  }
+                },
+                decoration: InputDecoration(
+                  labelText: 'Amount',
+                  labelStyle: TextStyle(color: Colors.green),
+                  enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.green)),
+                ),
+                keyboardType: TextInputType.number,
+                controller: amountController,
+                onChanged: (value){
+                  Transactions.setAmount(int.parse(value));
+                }, //here the underscore means that we don't really need this argument we are just using it because of syntax
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 20),
+                child: Text("Make Sure to select your own date",style: TextStyle(
+                  color: Colors.green,
+                ),),
+              ),
+              Container(
+                // height: 70,
+                margin: EdgeInsets.only(top: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Expanded(
+                      child: Text(
+                        selectedDate == DateTime.now()
+                            ? "No date chosen"
+                            : "Picked Date: ${(DateFormat.yMd().format(selectedDate))}",
                       ),
                     ),
-                  ),
-                ],
+                    TextButton(
+                      onPressed: () {
+                        Transactions.setDate(DatePicker());
+
+                      },
+                      child: Text(
+                        "Chose Date",
+                        style: TextStyle(
+                          color: Colors.green,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
+              ElevatedButton(
+                onPressed: () {
+                  Transactions.postDetailsToFireStore();
+                  Navigator.of(context).pop();
+                  Chart(Transactions.recentTransactions);
+
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.green,
+                ),
+                child: Text(
+                  "Add Transaction",
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
-        ]
-      ),
+      );
+      }
     );
-  }
-
-  postDetailsToFireStore() async {
-    //calling our fireStore
-    //calling user model
-    //sending values
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    User? user = _auth.currentUser;
-    Transactions transactions = Transactions();
-    transactions.title = titleController.text;
-    transactions.amount =int.parse(amountController.text) ;
-    transactions.date = selectedDate;
-
-    await firebaseFirestore
-        .collection('user')
-        .doc(user?.uid)
-        .collection('expenses')
-        .doc()
-        .set(transactions.toMap());
-
-    Fluttertoast.showToast(msg: "Transaction Added Successfully");
   }
 }

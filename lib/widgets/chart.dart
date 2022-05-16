@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:expenses_app/models/Transact.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'chart_bar.dart';
 
 final _auth = FirebaseAuth.instance;
@@ -9,6 +10,7 @@ User? user = _auth.currentUser;
 
 class Chart extends StatelessWidget {
   List<Transactions> recentTransaction;
+
   Chart(this.recentTransaction);
 
   List<Map<String, Object>> get groupedTransactionsValues {
@@ -42,28 +44,33 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 6,
-      margin: EdgeInsets.all(20),
-      child: Padding(
-        padding: EdgeInsets.all(4.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: groupedTransactionsValues.map((data) {
-            // print(data['amount']);
-            return Flexible(
-              fit: FlexFit.tight,
-              child: ChartBar(
-                  data['day'].toString(),
-                  data['amount'],
-                  maxSpendi == 0.0
-                      ? 0.0
-                      : (double.parse(data['amount'].toString())) /
-                          maxSpendi),
-            );
-          }).toList(),
+    return Consumer<Transactions>(
+      builder: (context, Transactions, child) {
+        Transactions.sampleList.clear();
+        return Card(
+        elevation: 6,
+        margin: EdgeInsets.all(20),
+        child: Padding(
+          padding: EdgeInsets.all(4.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: groupedTransactionsValues.map((data) {
+              Transactions.clearit();
+              return Flexible(
+                fit: FlexFit.tight,
+                child: ChartBar(
+                    data['day'].toString(),
+                    data['amount'],
+                    maxSpendi == 0.0
+                        ? 0.0
+                        : (double.parse(data['amount'].toString())) /
+                            maxSpendi),
+              );
+            }).toList(),
+          ),
         ),
-      ),
+      );
+      }
     );
   }
 }
