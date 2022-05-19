@@ -1,3 +1,6 @@
+// @dart=2.9
+
+
 import 'package:expenses_app/models/Transact.dart';
 import 'package:expenses_app/screens/Login_Screen.dart';
 import 'package:expenses_app/screens/welcome_screen.dart';
@@ -6,7 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
-User? user = FirebaseAuth.instance.currentUser;
+User user = FirebaseAuth.instance.currentUser;
 
 Future<void> main() async {
   WidgetsFlutterBinding
