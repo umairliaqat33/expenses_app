@@ -1,3 +1,4 @@
+import 'package:expenses_app/screens/MainScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:expenses_app/models/Transact.dart';
@@ -54,21 +55,29 @@ class Chart extends StatelessWidget {
         margin: EdgeInsets.all(20),
         child: Padding(
           padding: EdgeInsets.all(4.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: groupedTransactionsValues.map((data) {
-              Transactions.clearit();
-              return Flexible(
-                fit: FlexFit.tight,
-                child: ChartBar(
-                    data['day'].toString(),
-                    data['amount'],
-                    maxSpendi == 0.0
-                        ? 0.0
-                        : (double.parse(data['amount'].toString())) /
-                            maxSpendi),
-              );
-            }).toList(),
+          child: Column(
+            children: [
+              IconButton(onPressed: (){
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (context) => StartScreen()));
+              }, icon: Icon(Icons.repeat)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: groupedTransactionsValues.map((data) {
+                  Transactions.clearit();
+                  return Flexible(
+                    fit: FlexFit.tight,
+                    child: ChartBar(
+                        data['day'].toString(),
+                        data['amount'],
+                        maxSpendi == 0.0
+                            ? 0.0
+                            : (double.parse(data['amount'].toString())) /
+                                maxSpendi),
+                  );
+                }).toList(),
+              ),
+            ],
           ),
         ),
       );

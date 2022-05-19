@@ -12,7 +12,6 @@ final _auth = FirebaseAuth.instance;
 User? user = _auth.currentUser;
 
 class StartScreen extends StatefulWidget {
-
   @override
   State<StartScreen> createState() => _StartScreenState();
 }
@@ -20,21 +19,25 @@ class StartScreen extends StatefulWidget {
 class _StartScreenState extends State<StartScreen> {
   Future<Null> getRefresh() async {
     await Future.delayed(Duration(seconds: 3));
+
   }
-  Transactions transact=Transactions();
+
+  Transactions transact = Transactions();
 
   @override
   void initState() {
-    transact.getList();
-    transact.recentTransactions;
-    Chart(transact.recentTransactions);
+      transact.getList();
+      transact.recentTransactions;
+      Chart(transact.recentTransactions);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<Transactions>(builder: (context, Transactions, child) {
       return Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterFloat,
+        floatingActionButtonLocation:
+            FloatingActionButtonLocation.miniCenterFloat,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Transactions.sampleList.clear();
@@ -59,11 +62,6 @@ class _StartScreenState extends State<StartScreen> {
               },
               icon: Icon(Icons.logout),
             ),
-            // IconButton(onPressed: (){
-            //   transact.getList();
-            //   transact.recentTransactions;
-            //   Chart(transact.recentTransactions);
-            // }, icon: Icon(Icons.repeat)),
           ],
         ),
         body: RefreshIndicator(
@@ -77,7 +75,6 @@ class _StartScreenState extends State<StartScreen> {
                     children: <Widget>[
                       Chart(Transactions.recentTransactions),
                       TransactionList(),
-
                     ],
                   ),
                 );

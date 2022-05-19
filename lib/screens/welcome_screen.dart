@@ -7,7 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:expenses_app/widgets/chart.dart';
 
-
 class WelcomeUserScreen extends StatefulWidget {
   @override
   State<WelcomeUserScreen> createState() => _WelcomeUserScreenState();
@@ -27,16 +26,16 @@ class _WelcomeUserScreenState extends State<WelcomeUserScreen> {
     });
   }
 
-  Transactions transact=Transactions();
+  Transactions transact = Transactions();
   @override
   void initState() {
     super.initState();
-    transact.getList();
-    transact.recentTransactions;
-    Chart(transact.recentTransactions);
+      transact.getList();
+      transact.recentTransactions;
+      Chart(transact.recentTransactions);
+      getValues();
+      Time();
 
-    getValues();
-    Time();
   }
 
   void getValues() {
@@ -55,22 +54,8 @@ class _WelcomeUserScreenState extends State<WelcomeUserScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<Transactions>(
-      builder: (context, Transactions,child) {
+    return Consumer<Transactions>(builder: (context, Transactions, child) {
       return Scaffold(
-        // appBar: AppBar(
-        //   backgroundColor: Colors.transparent,
-        //   elevation: 0,
-        //   leading: IconButton(
-        //     icon: Icon(
-        //       Icons.arrow_back,
-        //       color: Colors.green,
-        //     ),
-        //     onPressed: () {
-        //       Navigator.of(context).pop();
-        //     },
-        //   ),
-        // ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -98,31 +83,10 @@ class _WelcomeUserScreenState extends State<WelcomeUserScreen> {
                   fontFamily: 'Quicksand',
                 ),
               ),
-              // Padding(
-              //   padding: EdgeInsets.symmetric(vertical: 16.0),
-              //   child: Material(
-              //     color: Theme.of(context).primaryColor,
-              //     borderRadius: BorderRadius.circular(30.0),
-              //     elevation: 5.0,
-              //     child: MaterialButton(
-              //       onPressed: () {
-              //         Navigator.push(context,
-              //             MaterialPageRoute(builder: (context) => StartScreen()));
-              //       },
-              //       minWidth: 200.0,
-              //       height: 42.0,
-              //       child: Text(
-              //         "Start Adding Expenses",
-              //         style: TextStyle(color: Colors.white),
-              //       ),
-              //     ),
-              //   ),
-              // )
             ],
           ),
         ),
       );
-      }
-    );
+    });
   }
 }

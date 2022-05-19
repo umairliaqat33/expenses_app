@@ -66,12 +66,6 @@ class _NewTransactionsState extends State<NewTransactions> {
                     return "Title is required";
                   }
                 },controller: titleController,
-
-                // onChanged: (value){
-                //   Transactions.setTitle(value);
-                // },
-                // onSubmitted: (_) =>
-                    // submitData(), //here the underscore means that we don't really need this argument we are just using it because of syntax
               ),
               TextFormField(
                 inputFormatters: <TextInputFormatter>[
@@ -90,9 +84,6 @@ class _NewTransactionsState extends State<NewTransactions> {
                 ),
                 keyboardType: TextInputType.number,
                 controller: amountController,
-                // onChanged: (value){
-                //   Transactions.setAmount(int.parse(value));
-                // }, //here the underscore means that we don't really need this argument we are just using it because of syntax
               ),
               Padding(
                 padding: EdgeInsets.only(top: 20),
@@ -133,10 +124,9 @@ class _NewTransactionsState extends State<NewTransactions> {
                 onPressed: () {
                   Transactions.postDetailsToFireStore(titleController.text,int.parse(amountController.text),selectedDate);
                   Navigator.of(context).pop();
-                  Transactions.clearit;
+                  Transactions.getList();
                   Transactions.recentTransactions;
                   Chart(Transactions.recentTransactions);
-
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colors.green,

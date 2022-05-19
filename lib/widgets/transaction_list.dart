@@ -20,12 +20,14 @@ class _TransactionListState extends State<TransactionList> {
 
   @override
   void initState() {
-    Transactions transact=Transactions();
-    transact.getList();
-    transact.recentTransactions;
-
+    setState((){
+      Transactions transact=Transactions();
+      transact.getList();
+      transact.recentTransactions;
+    });
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +43,6 @@ class _TransactionListState extends State<TransactionList> {
               .orderBy('date', descending: true)
               .snapshots(),
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            Transactions.clearit();
-            Transactions.getList();
             return snapshot.connectionState == ConnectionState.waiting
                 ? Center(
                     child: CircularProgressIndicator(
@@ -137,11 +137,10 @@ class _TransactionListState extends State<TransactionList> {
                                     alignment: Alignment.centerRight,
                                     child: IconButton(
                                       onPressed: () {
-                                        Transactions.delete(data);
-                                        Transactions.clearit;
                                         Transactions.getList();
                                         Transactions.recentTransactions;
                                         Chart(Transactions.recentTransactions);
+                                        Transactions.delete(data);
                                       },
                                       icon: Icon(Icons.delete),
                                     ),
