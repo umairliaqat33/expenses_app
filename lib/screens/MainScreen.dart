@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expenses_app/menu_screen.dart';
 import 'package:expenses_app/widgets/new_transactions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,15 +6,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import '../widgets/transaction_list.dart';
 import '../models/Transact.dart';
-import '../widgets/new_transactions.dart';
 import '../widgets/chart.dart';
 
-final _fireStore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
 User? user = _auth.currentUser;
 
 class StartScreen extends StatefulWidget {
-  // const StartScreen({Key? key}) : super(key: key);
 
   @override
   State<StartScreen> createState() => _StartScreenState();
@@ -26,12 +21,20 @@ class _StartScreenState extends State<StartScreen> {
   Future<Null> getRefresh() async {
     await Future.delayed(Duration(seconds: 3));
   }
+  Transactions transact=Transactions();
 
   @override
+  void initState() {
+    transact.getList();
+    transact.recentTransactions;
+    Chart(transact.recentTransactions);
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
-    // print(sampleList.length);
     return Consumer<Transactions>(builder: (context, Transactions, child) {
       return Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterFloat,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Transactions.sampleList.clear();
@@ -55,7 +58,12 @@ class _StartScreenState extends State<StartScreen> {
                 logout();
               },
               icon: Icon(Icons.logout),
-            )
+            ),
+            // IconButton(onPressed: (){
+            //   transact.getList();
+            //   transact.recentTransactions;
+            //   Chart(transact.recentTransactions);
+            // }, icon: Icon(Icons.repeat)),
           ],
         ),
         body: RefreshIndicator(

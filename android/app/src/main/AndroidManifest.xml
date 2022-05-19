@@ -2,7 +2,7 @@
     package="com.example.expenses_app">
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
-        android:label="expenses_app"
+        android:label="My Expenses"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -50,7 +50,7 @@ class _NewTransactionsState extends State<NewTransactions> {
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(20)
-              )
+              ),
           ),child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
@@ -65,10 +65,11 @@ class _NewTransactionsState extends State<NewTransactions> {
                   if(value!.isEmpty){
                     return "Title is required";
                   }
-                },
-                onChanged: (value){
-                  Transactions.setTitle(value);
-                },
+                },controller: titleController,
+
+                // onChanged: (value){
+                //   Transactions.setTitle(value);
+                // },
                 // onSubmitted: (_) =>
                     // submitData(), //here the underscore means that we don't really need this argument we are just using it because of syntax
               ),
@@ -89,9 +90,9 @@ class _NewTransactionsState extends State<NewTransactions> {
                 ),
                 keyboardType: TextInputType.number,
                 controller: amountController,
-                onChanged: (value){
-                  Transactions.setAmount(int.parse(value));
-                }, //here the underscore means that we don't really need this argument we are just using it because of syntax
+                // onChanged: (value){
+                //   Transactions.setAmount(int.parse(value));
+                // }, //here the underscore means that we don't really need this argument we are just using it because of syntax
               ),
               Padding(
                 padding: EdgeInsets.only(top: 20),
@@ -114,8 +115,8 @@ class _NewTransactionsState extends State<NewTransactions> {
                     ),
                     TextButton(
                       onPressed: () {
-                        Transactions.setDate(DatePicker());
-
+                        Transactions.date=DatePicker();
+                        FocusScope.of(context).unfocus();
                       },
                       child: Text(
                         "Chose Date",
@@ -130,9 +131,10 @@ class _NewTransactionsState extends State<NewTransactions> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Transactions.postDetailsToFireStore();
+                  Transactions.postDetailsToFireStore(titleController.text,int.parse(amountController.text),selectedDate);
                   Navigator.of(context).pop();
                   Transactions.clearit;
+                  Transactions.recentTransactions;
                   Chart(Transactions.recentTransactions);
 
                 },

@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:expenses_app/screens/MainScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:expenses_app/widgets/chart.dart';
+
 
 class WelcomeUserScreen extends StatefulWidget {
   @override
@@ -25,9 +27,14 @@ class _WelcomeUserScreenState extends State<WelcomeUserScreen> {
     });
   }
 
+  Transactions transact=Transactions();
   @override
   void initState() {
     super.initState();
+    transact.getList();
+    transact.recentTransactions;
+    Chart(transact.recentTransactions);
+
     getValues();
     Time();
   }

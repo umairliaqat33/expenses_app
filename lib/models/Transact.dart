@@ -33,20 +33,9 @@ class Transactions extends ChangeNotifier{
     };
   }
 
-   String titl="";
-   int amou=0;
-   DateTime dat=DateTime.now();
-  void setTitle(String tit){
-    titl=tit;
-  }
-  void setAmount(int amo){
-    amou=amo;
-  }
-  void setDate(DateTime da){
-    dat=da;
-  }
 
-  postDetailsToFireStore() async {
+
+  postDetailsToFireStore(String titl,int amou,DateTime dat) async {
     //calling our fireStore
     //calling user model
     //sending values
@@ -90,6 +79,7 @@ class Transactions extends ChangeNotifier{
         .collection('expenses')
         .snapshots() //snapshot is actually is the right thing which is returning us all the values from firebase.
         .listen((snap) {
+          sampleList.clear();
       snap.docs.forEach((d) {
         //forEach is used to give all the data in the form of a loop and gives us all data from firebase and we can store where ever we want.
         sampleList.add(

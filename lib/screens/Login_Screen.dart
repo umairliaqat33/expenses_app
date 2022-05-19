@@ -15,7 +15,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  bool err = true;
   final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
@@ -73,7 +72,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   controller: emailController,
                   decoration: kMessageTextFieldDecoration.copyWith(
                     hintText: 'Enter Your Email',
-                    errorText: !err ? "Email did not match" : "",
                     icon: Icon(Icons.email),
                   ),
                 ),
@@ -99,7 +97,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: kMessageTextFieldDecoration.copyWith(
                     hintText: 'Enter Your Password',
                     icon: Icon(Icons.vpn_key),
-                    errorText: !err ? "Password did not match" : "",
                   ),
                 ),
                 SizedBox(
@@ -113,10 +110,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     elevation: 5.0,
                     child: MaterialButton(
                       onPressed: () {
-                        setState(() {
-                          err = false;
-                        });
-
                         singIn(emailController.text, passController.text);
                         FocusManager.instance.primaryFocus?.unfocus();
                       },

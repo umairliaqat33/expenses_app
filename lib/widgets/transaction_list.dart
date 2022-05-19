@@ -17,6 +17,16 @@ class TransactionList extends StatefulWidget {
 }
 
 class _TransactionListState extends State<TransactionList> {
+
+  @override
+  void initState() {
+    Transactions transact=Transactions();
+    transact.getList();
+    transact.recentTransactions;
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<Transactions>(
@@ -129,6 +139,8 @@ class _TransactionListState extends State<TransactionList> {
                                       onPressed: () {
                                         Transactions.delete(data);
                                         Transactions.clearit;
+                                        Transactions.getList();
+                                        Transactions.recentTransactions;
                                         Chart(Transactions.recentTransactions);
                                       },
                                       icon: Icon(Icons.delete),
