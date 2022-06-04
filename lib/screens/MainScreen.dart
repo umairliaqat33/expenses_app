@@ -69,8 +69,7 @@ class _StartScreenState extends State<StartScreen> {
           child: ListView.builder(
               itemCount: 1,
               itemBuilder: (context, index) {
-                return SingleChildScrollView(
-                  //this will provide us a scroll screen doesn't matter how many widgets appear
+                return SingleChildScrollView( //this will provide us a scroll screen doesn't matter how many widgets appear
                   child: Column(
                     children: <Widget>[
                       Chart(Transactions.recentTransactions),

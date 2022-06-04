@@ -63,8 +63,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   ),
                   TextFormField(
                     validator: (value) {
-                      if (value!.isEmpty) {
-                        // this will be checking if we have any value in it or not?
+                      if (value!.isEmpty) {         // this will be checking if we have any value in it or not?
                         return "First name is required";
                       }
                       return null;
