@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expenses_app/menu_screen.dart';
 import 'package:expenses_app/models/constants.dart';
 import 'package:expenses_app/screens/Login_Screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,23 +24,24 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final L_name_Controller = TextEditingController();
   final F_name_Controller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  bool showSpinner=false;
+  bool showSpinner = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0,
-      //   leading: IconButton(
-      //     icon: Icon(
-      //       Icons.arrow_back,
-      //       color: Colors.green,
-      //     ),
-      //     onPressed: () {
-      //       Navigator.of(context).pop();
-      //     },
-      //   ),
-      // ),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.green,
+          ),
+          onPressed: () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => WelcomeScreen()));
+          },
+        ),
+      ),
       backgroundColor: Colors.white,
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
@@ -191,7 +193,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       child: MaterialButton(
                         onPressed: () {
                           setState(() {
-                            showSpinner=true;
+                            showSpinner = true;
                           });
                           SignUp(emailController.text, passController.text);
                           FocusManager.instance.primaryFocus?.unfocus();

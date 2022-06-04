@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
+import '../menu_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
@@ -18,24 +19,25 @@ class _LoginScreenState extends State<LoginScreen> {
   final passController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final _auth = FirebaseAuth.instance;
-  bool showSpinner=false;
+  bool showSpinner = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0,
-      //   leading: IconButton(
-      //     icon: Icon(
-      //       Icons.arrow_back,
-      //       color: Colors.green,
-      //     ),
-      //     onPressed: () {
-      //       Navigator.of(context).pop();
-      //     },
-      //   ),
-      // ),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.green,
+          ),
+          onPressed: () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => WelcomeScreen()));
+          },
+        ),
+      ),
       backgroundColor: Colors.white,
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
@@ -117,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: MaterialButton(
                         onPressed: () {
                           setState(() {
-                            showSpinner=true;
+                            showSpinner = true;
                           });
                           singIn(emailController.text, passController.text);
                           FocusManager.instance.primaryFocus?.unfocus();
