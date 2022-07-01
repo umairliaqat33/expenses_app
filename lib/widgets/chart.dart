@@ -14,8 +14,6 @@ class Chart extends StatelessWidget {
 
   Chart(this.recentTransaction);
 
-
-
   List<Map<String, Object>> get groupedTransactionsValues {
     //we are using list type map because we have to return two things date and amount
     return List.generate(7, (index) {
@@ -44,23 +42,30 @@ class Chart extends StatelessWidget {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return Consumer<Transactions>(
-      builder: (context, Transactions, child) {
-        // Transactions.sampleList.clear();
-        return Card(
+    return Consumer<Transactions>(builder: (context, Transactions, child) {
+      // Transactions.sampleList.clear();
+      return Card(
         elevation: 6,
         margin: EdgeInsets.all(20),
         child: Padding(
           padding: EdgeInsets.all(4.0),
           child: Column(
             children: [
-              IconButton(onPressed: (){
-                Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (context) => StartScreen()));
-              }, icon: Icon(Icons.repeat)),
+              IconButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => StartScreen()));
+                  },
+                  icon: Icon(Icons.repeat)),
+              Text(
+                "Chart of last 7 days",
+                style: TextStyle(
+                  color: Colors.green,
+                  fontWeight: FontWeight.bold
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: groupedTransactionsValues.map((data) {
@@ -81,7 +86,6 @@ class Chart extends StatelessWidget {
           ),
         ),
       );
-      }
-    );
+    });
   }
 }

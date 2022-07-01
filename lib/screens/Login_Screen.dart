@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:expenses_app/screens/Registration_Screen.dart';
 import 'package:expenses_app/screens/welcome_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,6 +12,7 @@ import '../menu_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -175,11 +178,14 @@ class _LoginScreenState extends State<LoginScreen> {
           Fluttertoast.showToast(msg: e);
         });
       } catch (e) {
+        sleep(const Duration(seconds: 5));
+        showSpinner = false;
         Fluttertoast.showToast(msg: e.toString());
       }
     } else {
       Fluttertoast.showToast(
           msg: "Please check email or password and try again");
+      showSpinner = false;
     }
   }
 }
