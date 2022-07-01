@@ -4,21 +4,21 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-
-
 final _fireStore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
 User? user = _auth.currentUser;
 
-
-class Transactions extends ChangeNotifier{
+class Transactions extends ChangeNotifier {
   String? title;
   int? amount;
   DateTime? date;
+
   // final user = FirebaseAuth.instance.currentUser;
 
   Transactions({this.amount, this.date, this.title});
+
   List<Transactions> transaction = [];
+
   factory Transactions.fromMap(map) {
     return Transactions(
         title: map['title'], amount: map['amount'], date: map['date']);
@@ -33,9 +33,7 @@ class Transactions extends ChangeNotifier{
     };
   }
 
-
-
-  postDetailsToFireStore(String titl,int amou,DateTime dat) async {
+  postDetailsToFireStore(String titl, int amou, DateTime dat) async {
     //calling our fireStore
     //calling user model
     //sending values
@@ -43,7 +41,7 @@ class Transactions extends ChangeNotifier{
     User? user = _auth.currentUser;
     Transactions transactions = Transactions();
     transactions.title = titl;
-    transactions.amount =amou ;
+    transactions.amount = amou;
     transactions.date = dat;
 
     await firebaseFirestore
@@ -56,9 +54,7 @@ class Transactions extends ChangeNotifier{
     notifyListeners();
   }
 
-
-
-  void delete(DocumentSnapshot data){
+  void delete(DocumentSnapshot data) {
     _fireStore
         .collection('user')
         .doc(user!.uid)
@@ -68,8 +64,8 @@ class Transactions extends ChangeNotifier{
     notifyListeners();
   }
 
-
   List<Transactions> sampleList = [];
+
   getList() async {
     //getting a list of transaction type from firebase using this complex function
     // sampleList.clear();
@@ -79,15 +75,15 @@ class Transactions extends ChangeNotifier{
         .collection('expenses')
         .snapshots() //snapshot is actually is the right thing which is returning us all the values from firebase.
         .listen((snap) {
-          sampleList.clear();
+      sampleList.clear();
       snap.docs.forEach((d) {
         //forEach is used to give all the data in the form of a loop and gives us all data from firebase and we can store where ever we want.
         sampleList.add(
           Transactions(
               amount: d.get('amount'),
-              date: DateTime.fromMicrosecondsSinceEpoch(d
-                  .get('date')
-                  .microsecondsSinceEpoch), //this is how we can convert timeStamp into dateTime
+              date: DateTime.fromMicrosecondsSinceEpoch(
+                  d.get('date').microsecondsSinceEpoch),
+              //this is how we can convert timeStamp into dateTime
               title: d.get('title')),
         );
       });
@@ -105,8 +101,7 @@ class Transactions extends ChangeNotifier{
     }).toList();
   }
 
-  void clearit(){
+  void clearit() {
     sampleList.clear();
   }
-
 }

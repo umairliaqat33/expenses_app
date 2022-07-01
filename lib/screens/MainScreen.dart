@@ -19,16 +19,15 @@ class StartScreen extends StatefulWidget {
 class _StartScreenState extends State<StartScreen> {
   Future<Null> getRefresh() async {
     await Future.delayed(Duration(seconds: 3));
-
   }
 
   Transactions transact = Transactions();
 
   @override
   void initState() {
-      transact.getList();
-      transact.recentTransactions;
-      Chart(transact.recentTransactions);
+    transact.getList();
+    transact.recentTransactions;
+    Chart(transact.recentTransactions);
     super.initState();
   }
 
@@ -69,7 +68,8 @@ class _StartScreenState extends State<StartScreen> {
           child: ListView.builder(
               itemCount: 1,
               itemBuilder: (context, index) {
-                return SingleChildScrollView( //this will provide us a scroll screen doesn't matter how many widgets appear
+                return SingleChildScrollView(
+                  //this will provide us a scroll screen doesn't matter how many widgets appear
                   child: Column(
                     children: <Widget>[
                       Chart(Transactions.recentTransactions),

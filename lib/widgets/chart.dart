@@ -61,10 +61,8 @@ class Chart extends StatelessWidget {
                   icon: Icon(Icons.repeat)),
               Text(
                 "Chart of last 7 days",
-                style: TextStyle(
-                  color: Colors.green,
-                  fontWeight: FontWeight.bold
-                ),
+                style:
+                    TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
