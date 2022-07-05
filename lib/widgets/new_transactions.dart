@@ -41,104 +41,106 @@ class _NewTransactionsState extends State<NewTransactions> {
   Widget build(BuildContext context) {
     return Consumer<Transactions>(
       builder: (context, Transactions, child) {
-      return Container(
-        color: Color(0xFF757575),
+      return SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(20),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20)
-              ),
-          ),child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              TextFormField(
-                // autofocus: true,
-                decoration: InputDecoration(
-                    labelText: 'Title',
+          color: Color(0xFF757575),
+          child: Container(
+            padding: EdgeInsets.all(20),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20)
+                ),
+            ),child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                TextFormField(
+                  // autofocus: true,
+                  decoration: InputDecoration(
+                      labelText: 'Title',
+                      enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.green)),
+                      labelStyle: TextStyle(color: Colors.green)),
+                  validator: (value){
+                    if(value!.isEmpty){
+                      return "Title is required";
+                    }
+                  },controller: titleController,
+                ),
+                TextFormField(
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
+                  validator: (value){
+                    if(value!.isEmpty){
+                      return "Amount is required";
+                    }
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Amount',
+                    labelStyle: TextStyle(color: Colors.green),
                     enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.green)),
-                    labelStyle: TextStyle(color: Colors.green)),
-                validator: (value){
-                  if(value!.isEmpty){
-                    return "Title is required";
-                  }
-                },controller: titleController,
-              ),
-              TextFormField(
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly
-                ],
-                validator: (value){
-                  if(value!.isEmpty){
-                    return "Amount is required";
-                  }
-                },
-                decoration: InputDecoration(
-                  labelText: 'Amount',
-                  labelStyle: TextStyle(color: Colors.green),
-                  enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.green)),
+                  ),
+                  keyboardType: TextInputType.number,
+                  controller: amountController,
                 ),
-                keyboardType: TextInputType.number,
-                controller: amountController,
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 20),
-                child: Text("Make Sure to select your own date",style: TextStyle(
-                  color: Colors.green,
-                ),),
-              ),
-              Container(
-                // height: 70,
-                margin: EdgeInsets.only(top: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        selectedDate == DateTime.now()
-                            ? "No date chosen"
-                            : "Picked Date: ${(DateFormat.yMd().format(selectedDate))}",
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Transactions.date=DatePicker();
-                        FocusScope.of(context).unfocus();
-                      },
-                      child: Text(
-                        "Chose Date",
-                        style: TextStyle(
-                          color: Colors.green,
-                          fontWeight: FontWeight.bold,
+                Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: Text("Make Sure to select your own date",style: TextStyle(
+                    color: Colors.green,
+                  ),),
+                ),
+                Container(
+                  // height: 70,
+                  margin: EdgeInsets.only(top: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Expanded(
+                        child: Text(
+                          selectedDate == DateTime.now()
+                              ? "No date chosen"
+                              : "Picked Date: ${(DateFormat.yMd().format(selectedDate))}",
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Transactions.postDetailsToFireStore(titleController.text,int.parse(amountController.text),selectedDate);
-                  Navigator.of(context).pop();
-                  Transactions.getList();
-                  Transactions.recentTransactions;
-                  Chart(Transactions.recentTransactions);
-                },
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.green,
-                ),
-                child: Text(
-                  "Add Transaction",
-                  style: TextStyle(
-                    fontSize: 20,
+                      TextButton(
+                        onPressed: () {
+                          Transactions.date=DatePicker();
+                          FocusScope.of(context).unfocus();
+                        },
+                        child: Text(
+                          "Chose Date",
+                          style: TextStyle(
+                            color: Colors.green,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ],
+                ElevatedButton(
+                  onPressed: () {
+                    Transactions.postDetailsToFireStore(titleController.text,int.parse(amountController.text),selectedDate);
+                    Navigator.of(context).pop();
+                    Transactions.getList();
+                    Transactions.recentTransactions;
+                    Chart(Transactions.recentTransactions);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.green,
+                  ),
+                  child: Text(
+                    "Add Transaction",
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       );

@@ -50,7 +50,7 @@ class Chart extends StatelessWidget {
         elevation: 6,
         margin: EdgeInsets.all(20),
         child: Padding(
-          padding: EdgeInsets.all(4.0),
+          padding: EdgeInsets.only(left: 4.0,right: 4.0),
           child: Column(
             children: [
               IconButton(

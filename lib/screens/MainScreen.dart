@@ -33,6 +33,27 @@ class _StartScreenState extends State<StartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final media=MediaQuery.of(context);
+    bool isPortrait = media.orientation==Orientation.portrait;
+    final appBar = AppBar(
+      backgroundColor: Theme.of(context).primaryColor,
+      title: Text(
+        "Personal Expenses",
+        style: TextStyle(
+            fontFamily:
+                'Open Sans' //this is how we can use fonts families in any individual widget.
+            ),
+      ),
+      actions: [
+        IconButton(
+          onPressed: () {
+            logout();
+          },
+          icon: Icon(Icons.logout),
+        ),
+      ],
+    );
+
     return Consumer<Transactions>(builder: (context, Transactions, child) {
       return Scaffold(
         floatingActionButtonLocation:
@@ -45,24 +66,7 @@ class _StartScreenState extends State<StartScreen> {
           },
           child: Icon(Icons.add),
         ),
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
-          title: Text(
-            "Personal Expenses",
-            style: TextStyle(
-                fontFamily:
-                    'Open Sans' //this is how we can use fonts families in any individual widget.
-                ),
-          ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                logout();
-              },
-              icon: Icon(Icons.logout),
-            ),
-          ],
-        ),
+        appBar: appBar,
         body: RefreshIndicator(
           onRefresh: getRefresh,
           child: ListView.builder(
@@ -72,8 +76,16 @@ class _StartScreenState extends State<StartScreen> {
                   //this will provide us a scroll screen doesn't matter how many widgets appear
                   child: Column(
                     children: <Widget>[
-                      Chart(Transactions.recentTransactions),
-                      TransactionList(),
+                      Container(
+                          height: (media.size.height ) *
+                              ( isPortrait ? 0.28 : 0.6),
+                          child: Chart(Transactions.recentTransactions)),
+                      Container(
+                          height: (media.size.height -
+                                  appBar.preferredSize.height -
+                                  media.padding.top) *
+                              ( isPortrait ? 0.6 : 0.7),
+                          child: TransactionList()),
                     ],
                   ),
                 );
