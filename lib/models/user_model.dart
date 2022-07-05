@@ -6,6 +6,7 @@ class UserModel {
 
   //receiving data from firebase
   UserModel({this.uid, this.Fname, this.Lname, this.email});
+
   factory UserModel.fromMap(map) {
     return UserModel(
         uid: map['uid'],

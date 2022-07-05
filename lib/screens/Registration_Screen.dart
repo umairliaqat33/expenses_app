@@ -25,6 +25,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final F_name_Controller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool showSpinner = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +64,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   ),
                   TextFormField(
                     validator: (value) {
-                      if (value!.isEmpty) {         // this will be checking if we have any value in it or not?
+                      if (value!.isEmpty) {
+                        // this will be checking if we have any value in it or not?
                         return "First name is required";
                       }
                       return null;

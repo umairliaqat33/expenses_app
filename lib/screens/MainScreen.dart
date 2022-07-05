@@ -33,8 +33,8 @@ class _StartScreenState extends State<StartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final media=MediaQuery.of(context);
-    bool isPortrait = media.orientation==Orientation.portrait;
+    final media = MediaQuery.of(context);
+    bool isPortrait = media.orientation == Orientation.portrait;
     final appBar = AppBar(
       backgroundColor: Theme.of(context).primaryColor,
       title: Text(
@@ -77,14 +77,14 @@ class _StartScreenState extends State<StartScreen> {
                   child: Column(
                     children: <Widget>[
                       Container(
-                          height: (media.size.height ) *
-                              ( isPortrait ? 0.28 : 0.6),
+                          height:
+                              (media.size.height) * (isPortrait ? 0.28 : 0.6),
                           child: Chart(Transactions.recentTransactions)),
                       Container(
                           height: (media.size.height -
                                   appBar.preferredSize.height -
                                   media.padding.top) *
-                              ( isPortrait ? 0.6 : 0.7),
+                              (isPortrait ? 0.6 : 0.7),
                           child: TransactionList()),
                     ],
                   ),

@@ -38,7 +38,7 @@ class _TransactionListState extends State<TransactionList> {
             .orderBy('date', descending: true)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          final media=MediaQuery.of(context);
+          final media = MediaQuery.of(context);
           return snapshot.connectionState == ConnectionState.waiting
               ? Center(
                   child: CircularProgressIndicator(

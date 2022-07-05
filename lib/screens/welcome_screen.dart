@@ -21,21 +21,22 @@ class _WelcomeUserScreenState extends State<WelcomeUserScreen> {
     Timer(Duration(seconds: 5), () {
       //this timer function is used to switch to StartScreen class automatically after 10 seconds and it requires import 'dart:async';.
       Navigator.pushReplacement(
-          context, //push replacement is used to replace the previous widget with the new one.
+          context,
+          //push replacement is used to replace the previous widget with the new one.
           MaterialPageRoute(builder: (context) => StartScreen()));
     });
   }
 
   Transactions transact = Transactions();
+
   @override
   void initState() {
     super.initState();
-      transact.getList();
-      transact.recentTransactions;
-      Chart(transact.recentTransactions);
-      getValues();
-      Time();
-
+    transact.getList();
+    transact.recentTransactions;
+    Chart(transact.recentTransactions);
+    getValues();
+    Time();
   }
 
   void getValues() {

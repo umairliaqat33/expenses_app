@@ -19,12 +19,13 @@ class _NewTransactionsState extends State<NewTransactions> {
   final titleController = TextEditingController();
   final amountController = TextEditingController();
   DateTime selectedDate = DateTime.now();
+
   DateTime DatePicker() {
     showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2020),
-        lastDate: DateTime.now())
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2020),
+            lastDate: DateTime.now())
         .then((pickedDate) {
       if (pickedDate == null) {
         return;
@@ -36,23 +37,20 @@ class _NewTransactionsState extends State<NewTransactions> {
     return selectedDate;
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return Consumer<Transactions>(
-      builder: (context, Transactions, child) {
+    return Consumer<Transactions>(builder: (context, Transactions, child) {
       return SingleChildScrollView(
         child: Container(
           color: Color(0xFF757575),
           child: Container(
             padding: EdgeInsets.all(20),
             decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20)
-                ),
-            ),child: Column(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+            ),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 TextFormField(
@@ -62,18 +60,19 @@ class _NewTransactionsState extends State<NewTransactions> {
                       enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.green)),
                       labelStyle: TextStyle(color: Colors.green)),
-                  validator: (value){
-                    if(value!.isEmpty){
+                  validator: (value) {
+                    if (value!.isEmpty) {
                       return "Title is required";
                     }
-                  },controller: titleController,
+                  },
+                  controller: titleController,
                 ),
                 TextFormField(
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly
                   ],
-                  validator: (value){
-                    if(value!.isEmpty){
+                  validator: (value) {
+                    if (value!.isEmpty) {
                       return "Amount is required";
                     }
                   },
@@ -88,9 +87,12 @@ class _NewTransactionsState extends State<NewTransactions> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 20),
-                  child: Text("Make Sure to select your own date",style: TextStyle(
-                    color: Colors.green,
-                  ),),
+                  child: Text(
+                    "Make Sure to select your own date",
+                    style: TextStyle(
+                      color: Colors.green,
+                    ),
+                  ),
                 ),
                 Container(
                   // height: 70,
@@ -107,7 +109,7 @@ class _NewTransactionsState extends State<NewTransactions> {
                       ),
                       TextButton(
                         onPressed: () {
-                          Transactions.date=DatePicker();
+                          Transactions.date = DatePicker();
                           FocusScope.of(context).unfocus();
                         },
                         child: Text(
@@ -123,7 +125,8 @@ class _NewTransactionsState extends State<NewTransactions> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Transactions.postDetailsToFireStore(titleController.text,int.parse(amountController.text),selectedDate);
+                    Transactions.postDetailsToFireStore(titleController.text,
+                        int.parse(amountController.text), selectedDate);
                     Navigator.of(context).pop();
                     Transactions.getList();
                     Transactions.recentTransactions;
@@ -144,7 +147,6 @@ class _NewTransactionsState extends State<NewTransactions> {
           ),
         ),
       );
-      }
-    );
+    });
   }
 }
