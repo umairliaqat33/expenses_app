@@ -44,7 +44,11 @@ class _NewTransactionsState extends State<NewTransactions> {
         child: Container(
           color: Color(0xFF757575),
           child: Container(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.only(
+                top: 10,
+                right: 10,
+                left: 10,
+                bottom: MediaQuery.of(context).viewInsets.bottom + 10),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(

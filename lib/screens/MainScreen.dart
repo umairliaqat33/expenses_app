@@ -84,7 +84,7 @@ class _StartScreenState extends State<StartScreen> {
                           height: (media.size.height -
                                   appBar.preferredSize.height -
                                   media.padding.top) *
-                              (isPortrait ? 0.6 : 0.7),
+                              (isPortrait ? 0.6 : 0.75),
                           child: TransactionList()),
                     ],
                   ),

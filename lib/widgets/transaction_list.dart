@@ -151,7 +151,10 @@ class _TransactionListState extends State<TransactionList> {
                                                 .recentTransactions);
                                             Transactions.delete(data);
                                           },
-                                          icon: Icon(Icons.delete),
+                                          icon: Icon(
+                                            Icons.delete,
+                                            color: Colors.green,
+                                          ),
                                         ),
                                 )),
                               ],
