@@ -3,13 +3,14 @@
 import 'package:expenses_app/providers/auth_provider.dart';
 import 'package:expenses_app/ui_parts/screens/auth/auth_decision_screen.dart';
 import 'package:expenses_app/ui_parts/screens/auth/registration_screen.dart';
-import 'package:expenses_app/ui_parts/screens/transaction_screens/transaction_list.dart';
+import 'package:expenses_app/ui_parts/screens/home_screen/home_screen.dart';
 import 'package:expenses_app/ui_parts/widgets/round_button.dart';
 import 'package:expenses_app/utils/exceptions.dart';
 import 'package:expenses_app/ui_parts/widgets/custom_toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:expenses_app/models/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -24,6 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final AuthProvider _authProvider = AuthProvider();
   bool _showSpinner = false;
+  bool _textVisible = true;
 
   @override
   Widget build(BuildContext context) {
@@ -100,12 +102,24 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   cursorColor: Colors.green,
                   textInputAction: TextInputAction.done,
-                  obscureText: true,
+                  obscureText: _textVisible,
                   textAlign: TextAlign.center,
                   controller: passController,
                   decoration: kMessageTextFieldDecoration.copyWith(
                     hintText: 'Enter Your Password',
                     icon: const Icon(Icons.vpn_key),
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _textVisible = !_textVisible;
+                        });
+                      },
+                      icon: _textVisible
+                          ? SvgPicture.asset(
+                              'assets/images/password_visibility_off.svg')
+                          : SvgPicture.asset(
+                              'assets/images/password_visibility_on.svg'),
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -174,7 +188,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (userCredential != null) {
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-              builder: (context) => const TransactionList(),
+              builder: (context) => const HomeScreen(),
             ),
             (route) => false,
           );

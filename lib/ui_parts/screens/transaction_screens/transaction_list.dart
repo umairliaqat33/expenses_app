@@ -2,6 +2,7 @@
 
 import 'dart:developer';
 
+import 'package:draggable_fab/draggable_fab.dart';
 import 'package:expenses_app/ui_parts/screens/auth/auth_decision_screen.dart';
 import 'package:expenses_app/models/transaction_model/transaction_model.dart';
 import 'package:expenses_app/providers/firestore_provider.dart';
@@ -23,19 +24,18 @@ class TransactionList extends StatefulWidget {
 class _TransactionListState extends State<TransactionList> {
   final FirestoreProvider _firestoreProvider = FirestoreProvider();
   @override
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButtonLocation:
-          FloatingActionButtonLocation.miniCenterFloat,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            builder: (context) => const NewTransactions(),
-          );
-        },
-        child: const Icon(Icons.add),
+      floatingActionButton: DraggableFab(
+        child: FloatingActionButton(
+          onPressed: () {
+            showModalBottomSheet(
+              context: context,
+              builder: (context) => const NewTransactions(),
+            );
+          },
+          child: const Icon(Icons.add),
+        ),
       ),
       appBar: AppBar(
         title: const Text(
@@ -61,7 +61,7 @@ class _TransactionListState extends State<TransactionList> {
               snapshot.connectionState == ConnectionState.waiting
                   ? const Center(
                       child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
                     ))
                   : snapshot.data!.isEmpty
                       ? const NoTransactionsWidget()

@@ -84,6 +84,7 @@ class _AuthDecisionScreenState extends State<AuthDecisionScreen>
             ),
             RoundedButton(
               onPressed: () {
+                controller.dispose();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -98,6 +99,7 @@ class _AuthDecisionScreenState extends State<AuthDecisionScreen>
               color: Colors.green,
               title: 'Login',
               onPressed: () {
+                controller.dispose();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
