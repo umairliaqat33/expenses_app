@@ -18,6 +18,9 @@ class _FilterScreenState extends State<FilterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Filte for highest and lowest"),
+      ),
       body: SafeArea(
         child: Column(
           children: [

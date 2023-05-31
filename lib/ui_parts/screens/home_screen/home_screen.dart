@@ -1,5 +1,4 @@
 import 'package:expenses_app/ui_parts/screens/filter_screen/filter_screen.dart';
-import 'package:expenses_app/ui_parts/screens/profile_screen/profile_screen.dart';
 import 'package:expenses_app/ui_parts/screens/team_screen/team_screen.dart';
 import 'package:expenses_app/ui_parts/screens/transaction_screens/transaction_list.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +16,6 @@ class _HomeScreenState extends State<HomeScreen> {
     TransactionList(),
     FilterScreen(),
     TeamScreen(),
-    ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -43,10 +41,6 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.people),
             label: 'Team',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
           ),
         ],
         currentIndex: _selectedIndex,

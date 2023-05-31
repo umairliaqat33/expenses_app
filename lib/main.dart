@@ -1,4 +1,4 @@
-import 'package:expenses_app/ui_parts/screens/splash_screen.dart';
+import 'package:expenses_app/ui_parts/screens/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
