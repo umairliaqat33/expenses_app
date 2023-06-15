@@ -4,7 +4,7 @@ import 'package:expenses_app/ui_parts/screens/auth/auth_decision_screen.dart';
 import 'package:expenses_app/models/constants.dart';
 import 'package:expenses_app/providers/auth_provider.dart';
 import 'package:expenses_app/ui_parts/screens/auth/login_screen.dart';
-import 'package:expenses_app/ui_parts/screens/home_screen/home_screen.dart';
+import 'package:expenses_app/ui_parts/screens/transaction_screens/transaction_list.dart';
 import 'package:expenses_app/ui_parts/widgets/round_button.dart';
 import 'package:expenses_app/utils/exceptions.dart';
 import 'package:expenses_app/ui_parts/widgets/custom_toast.dart';
@@ -236,7 +236,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           CustomToast.showCustomToast("SignUp Successful", context);
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-              builder: (context) => const HomeScreen(),
+              builder: (context) => const TransactionList(),
             ),
             (route) => false,
           );

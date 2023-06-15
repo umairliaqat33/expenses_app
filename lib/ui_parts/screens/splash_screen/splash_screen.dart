@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:expenses_app/ui_parts/screens/auth/auth_decision_screen.dart';
-import 'package:expenses_app/ui_parts/screens/home_screen/home_screen.dart';
+import 'package:expenses_app/ui_parts/screens/transaction_screens/transaction_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -21,8 +21,9 @@ class _SplashScreenState extends State<SplashScreen> {
         User? user = FirebaseAuth.instance.currentUser;
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
-            builder: (context) =>
-                user == null ? const AuthDecisionScreen() : const HomeScreen(),
+            builder: (context) => user == null
+                ? const AuthDecisionScreen()
+                : const TransactionList(),
           ),
           (route) => false,
         );

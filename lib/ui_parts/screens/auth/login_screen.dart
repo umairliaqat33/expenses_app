@@ -3,7 +3,7 @@
 import 'package:expenses_app/providers/auth_provider.dart';
 import 'package:expenses_app/ui_parts/screens/auth/auth_decision_screen.dart';
 import 'package:expenses_app/ui_parts/screens/auth/registration_screen.dart';
-import 'package:expenses_app/ui_parts/screens/home_screen/home_screen.dart';
+import 'package:expenses_app/ui_parts/screens/transaction_screens/transaction_list.dart';
 import 'package:expenses_app/ui_parts/widgets/round_button.dart';
 import 'package:expenses_app/utils/exceptions.dart';
 import 'package:expenses_app/ui_parts/widgets/custom_toast.dart';
@@ -188,7 +188,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (userCredential != null) {
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-              builder: (context) => const HomeScreen(),
+              builder: (context) => const TransactionList(),
             ),
             (route) => false,
           );
